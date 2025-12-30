@@ -1,0 +1,2439 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap');
+
+/* Global Styles for Liquid Glass Design System */
+/* Phase 6: Performance & Production Optimized */
+
+/* ============================================
+   Performance Layer - GPU Acceleration Hints
+   ============================================ */
+
+/* Elements that will animate - prepare GPU layers */
+.hig-modal,
+.hig-sheet,
+.hig-modal-overlay,
+.hig-sheet-overlay,
+.context-menu,
+.context-menu-backdrop,
+.pull-refresh-indicator,
+.liquid-glass-elevated,
+.animate-spring-in,
+.animate-spring-bounce,
+.animate-spring-pulse {
+  will-change: transform, opacity;
+}
+
+/* Tab bar and nav - always visible, hint for blur */
+.hig-tab-bar,
+.glass-tab-bar,
+.glass-nav {
+  will-change: transform;
+  contain: layout style;
+}
+
+/* Cards that animate on hover/active */
+.haptic-card,
+.haptic-press,
+.category-card {
+  will-change: transform;
+}
+
+/* Heavy blur elements - performance containment */
+.liquid-glass,
+.liquid-glass-elevated,
+.liquid-glass-translucent,
+.liquid-glass-clear {
+  contain: paint;
+}
+
+/* Reset will-change after animation completes (via JS or inherently) */
+.animation-ended {
+  will-change: auto;
+}
+
+/* Force GPU acceleration for all transforms */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+
+:root {
+  color-scheme: light dark;
+
+  /* Revolut Semantic Colors - Light Mode */
+  --hig-blue: #0075FF;
+  /* Revolut Primary Blue */
+  --hig-label: #191919;
+  /* Deep Charcoal */
+  --hig-secondaryLabel: #8E8E93;
+  /* Neutral Gray */
+  --hig-tertiaryLabel: #AEAEB2;
+  --hig-quaternaryLabel: #D1D1D6;
+
+  --hig-systemBackground: #F5F5F7;
+  /* Fintech Grey Background */
+  --hig-secondarySystemBackground: #FFFFFF;
+  /* Pure White Surface */
+  --hig-tertiarySystemBackground: #F2F2F7;
+  --hig-systemGroupedBackground: #F5F5F7;
+
+  --hig-separator: rgba(0, 0, 0, 0.05);
+  --hig-opaqueSeparator: #E5E5E7;
+
+  /* System Colors - Light */
+  --hig-green: #00C853;
+  /* Success Green */
+  --hig-red: #FF3B30;
+  --hig-orange: #FF9500;
+  --hig-yellow: #FFCC00;
+  --hig-purple: #AF52DE;
+  --hig-pink: #FF2D55;
+  --hig-teal: #5AC8FA;
+  --hig-indigo: #5856D6;
+
+  /* Fintech Card Shadows */
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --card-shadow-elevated: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --card-radius: 24px;
+
+  /* Typography */
+  --font-body: 'Helvetica Neue', 'SF Pro Text', 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-display: 'Outfit', 'Helvetica Neue', 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Radius & Shadows */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --shadow-1: 0 8px 26px rgba(15, 23, 42, 0.10);
+  --shadow-2: 0 18px 44px rgba(15, 23, 42, 0.16);
+
+  /* Surfaces */
+  --surface-1: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-3: #e8edf3;
+  --border-subtle: rgba(15, 23, 42, 0.14);
+  --text-muted: #64748b;
+  --text-strong: #0f172a;
+}
+
+.dark {
+  /* Revolut Semantic Colors - Dark Mode */
+  --hig-blue: #0075FF;
+  --hig-label: #FFFFFF;
+  --hig-secondaryLabel: #8E8E93;
+  --hig-tertiaryLabel: #48484A;
+  --hig-quaternaryLabel: #38383A;
+
+  --hig-systemBackground: #000000;
+  --hig-secondarySystemBackground: #1C1C1E;
+  --hig-tertiarySystemBackground: #2C2C2E;
+  --hig-systemGroupedBackground: #000000;
+
+  --hig-separator: rgba(255, 255, 255, 0.1);
+  --hig-opaqueSeparator: #38383A;
+
+  /* System Colors - Dark */
+  --hig-green: #00E676;
+  --hig-red: #FF453A;
+  --hig-orange: #FF9F0A;
+  --hig-yellow: #FFD60A;
+  --hig-purple: #BF5AF2;
+  --hig-pink: #FF375F;
+  --hig-teal: #64D2FF;
+  --hig-indigo: #5E5CE6;
+
+  /* Fintech Card Shadows - Dark */
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --card-shadow-elevated: 0 12px 48px rgba(0, 0, 0, 0.5);
+
+  --shadow-1: 0 8px 24px rgba(0, 0, 0, 0.55);
+  --shadow-2: 0 16px 44px rgba(0, 0, 0, 0.65);
+  --surface-1: #0b0f14;
+  --surface-2: #121821;
+  --surface-3: #0b0f14;
+  --border-subtle: rgba(148, 163, 184, 0.14);
+  --text-muted: #94a3b8;
+  --text-strong: #e2e8f0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--surface-3);
+  color: var(--text-strong);
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100vh;
+  overscroll-behavior-y: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  background-color: var(--surface-3);
+}
+
+/* ============================================
+   Global Smooth Transitions
+   ============================================ */
+
+/* Default smooth transitions for interactive elements */
+button,
+a,
+[role="button"] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Cards and containers get smoother transitions */
+.fintech-card,
+.haptic-card,
+.liquid-glass,
+[class*="rounded-"] {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.5s ease;
+}
+
+/* Page and view transitions */
+main,
+section,
+article {
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth color transitions for theme switching */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+}
+
+/* Override for elements that need instant response */
+input,
+textarea,
+select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Animation Utilities */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced spring animation */
+@keyframes springIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+
+  50% {
+    transform: scale(1.02) translateY(-2px);
+  }
+
+  75% {
+    transform: scale(0.99) translateY(1px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-spring-in {
+  animation: springIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Staggered animation delays */
+.stagger-1 {
+  animation-delay: 0.05s;
+}
+
+.stagger-2 {
+  animation-delay: 0.1s;
+}
+
+.stagger-3 {
+  animation-delay: 0.15s;
+}
+
+.stagger-4 {
+  animation-delay: 0.2s;
+}
+
+.stagger-5 {
+  animation-delay: 0.25s;
+}
+
+/* Smooth hover states */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Liquid Glass enhanced */
+.liquid-glass-footer {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.dark .liquid-glass-footer {
+  background: rgba(28, 28, 30, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* Responsive Container */
+.responsive-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .responsive-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .responsive-container {
+    max-width: 1200px;
+  }
+}
+
+/* Responsive Grid */
+.responsive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Stats Grid - Always 2 cols on mobile, 4 on desktop */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* User Filter Gradients */
+.filter-gradient-all {
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A855F7 100%);
+}
+
+.filter-gradient-baris {
+  background: linear-gradient(135deg, #10B981 0%, #34D399 50%, #6EE7B7 100%);
+}
+
+.filter-gradient-sengul {
+  background: linear-gradient(135deg, #EC4899 0%, #F472B6 50%, #FB7185 100%);
+}
+
+.filter-gradient-fatih {
+  background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 50%, #93C5FD 100%);
+}
+
+/* Bold Hero Backgrounds */
+.hero-bg-gradient {
+  background: linear-gradient(135deg,
+      rgba(99, 102, 241, 0.15) 0%,
+      rgba(168, 85, 247, 0.1) 25%,
+      rgba(236, 72, 153, 0.1) 50%,
+      rgba(59, 130, 246, 0.15) 75%,
+      rgba(16, 185, 129, 0.1) 100%);
+}
+
+.dark .hero-bg-gradient {
+  background: linear-gradient(135deg,
+      rgba(99, 102, 241, 0.25) 0%,
+      rgba(168, 85, 247, 0.2) 25%,
+      rgba(236, 72, 153, 0.15) 50%,
+      rgba(59, 130, 246, 0.2) 75%,
+      rgba(16, 185, 129, 0.15) 100%);
+}
+
+/* Animated Mesh Background */
+.mesh-gradient {
+  position: relative;
+  overflow: hidden;
+}
+
+.mesh-gradient::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.3) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.25) 0%, transparent 40%),
+    radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 90% 70%, rgba(251, 146, 60, 0.2) 0%, transparent 40%);
+  animation: meshMove 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes meshMove {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-5%, -5%) rotate(2deg);
+  }
+
+  50% {
+    transform: translate(5%, 5%) rotate(-2deg);
+  }
+
+  75% {
+    transform: translate(-2%, 2%) rotate(1deg);
+  }
+}
+
+/* Scrollbar Styling - Minimalist */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  /* slate-400/50 */
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(71, 85, 105, 0.5);
+  /* slate-600/50 */
+}
+
+/* Utilities */
+.ease-spring {
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Matches Design System spring */
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Safe Area Handling */
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.px-safe {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* ============================================
+   Enhanced Fintech Design System
+   ============================================ */
+
+/* The Primary Fintech Card */
+.fintech-card,
+.liquid-glass,
+.glass-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-1);
+  border-radius: var(--radius-lg);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+}
+
+.fintech-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-elevated);
+}
+
+.fintech-card-active:active {
+  transform: scale(0.98);
+}
+
+/* Primary Fintech Pill / Filter */
+.fintech-pill {
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.fintech-pill-active {
+  background: var(--hig-blue);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 117, 255, 0.2);
+}
+
+.fintech-pill-inactive {
+  background: var(--hig-tertiarySystemBackground);
+  color: var(--hig-secondaryLabel);
+}
+
+/* Primary Fintech Button */
+.fintech-button {
+  height: 56px;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 17px;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fintech-button-primary {
+  background: var(--hig-blue);
+  color: white;
+  box-shadow: 0 8px 24px rgba(0, 117, 255, 0.25);
+}
+
+.fintech-button-secondary {
+  background: var(--hig-tertiarySystemBackground);
+  color: var(--hig-label);
+}
+
+.fintech-button:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+}
+
+/* Legacy glass-panel (backwards compatibility) */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 16px var(--glass-shadow);
+}
+
+/* ============================================
+   Spring Animations (HIG Motion)
+   ============================================ */
+
+@keyframes springIn {
+  0% {
+    transform: scale(0.9) translateZ(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.02) translateZ(0);
+  }
+
+  100% {
+    transform: scale(1) translateZ(0);
+    opacity: 1;
+  }
+}
+
+@keyframes springBounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes springPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-spring-in {
+  animation: springIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.animate-spring-bounce {
+  animation: springBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.animate-spring-pulse {
+  animation: springPulse 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Transition utilities with spring easing */
+.transition-spring {
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition-duration: 300ms;
+}
+
+/* ============================================
+   Reduced Motion Support (Accessibility)
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-spring-in,
+  .animate-spring-bounce,
+  .animate-spring-pulse {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .transition-spring {
+    transition-duration: 0ms;
+  }
+
+  .mesh-gradient::before {
+    animation: none;
+  }
+
+  .shimmer {
+    animation: none;
+  }
+}
+
+/* ============================================
+   HIG Button Styles
+   ============================================ */
+
+.btn-hig-primary {
+  background: var(--hig-blue);
+  color: white;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.btn-hig-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-hig-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-hig-secondary {
+  background: var(--hig-secondarySystemBackground);
+  color: var(--hig-blue);
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.btn-hig-destructive {
+  background: var(--hig-red);
+  color: white;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+/* iOS Specific Enhancements */
+@supports (-webkit-touch-callout: none) {
+  .ios-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Button & Card Active States */
+.ios-active:active {
+  transform: scale(0.96);
+  opacity: 0.8;
+  transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+}
+
+/* Page Transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1), transform 300ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Skeleton Shimmer */
+.shimmer {
+  background: var(--hig-tertiarySystemBackground);
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg,
+      transparent 0,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.4) 60%,
+      transparent 100%);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Modal/Sheet Animation */
+.sheet-enter {
+  transform: translateY(100%);
+}
+
+.sheet-enter-active {
+  transform: translateY(0);
+  transition: transform 400ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Sheet with grabber handle */
+.sheet-grabber {
+  width: 36px;
+  height: 5px;
+  background: var(--hig-tertiaryLabel);
+  border-radius: 2.5px;
+  margin: 8px auto 16px;
+}
+
+/* ============================================
+   HIG Focus States (Accessibility)
+   ============================================ */
+
+/* Default focus-visible ring for all interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible {
+  outline: 2px solid var(--hig-blue);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Remove default outline for mouse users */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+select:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   Enhanced Glass Cards (Translucent)
+   ============================================ */
+
+/* Translucent glass card - shows background through */
+.liquid-glass-translucent {
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.4) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
+}
+
+.dark .liquid-glass-translucent {
+  background: linear-gradient(135deg,
+      rgba(28, 28, 30, 0.7) 0%,
+      rgba(44, 44, 46, 0.5) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   Text Shadow for Gradient Backgrounds
+   ============================================ */
+
+/* Subtle text shadow for white text on gradients */
+.text-shadow-sm {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.text-shadow-md {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.text-shadow-lg {
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   Enhanced Haptic-like Visual Feedback
+   ============================================ */
+
+/* Improved active state with scale and opacity */
+.haptic-press {
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.haptic-press:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+/* Card press effect */
+.haptic-card {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.2s ease;
+}
+
+.haptic-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.haptic-card:active {
+  transform: scale(0.98) translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   HIG List Styles
+   ============================================ */
+
+/* iOS-style list row with separator */
+.hig-list-row {
+  padding: 12px 16px;
+  background: var(--hig-secondarySystemBackground);
+  border-bottom: 0.5px solid var(--hig-separator);
+  transition: background-color 0.15s ease;
+}
+
+.hig-list-row:active {
+  background: var(--hig-tertiarySystemBackground);
+}
+
+.hig-list-row:last-child {
+  border-bottom: none;
+}
+
+/* ============================================
+   Gradient Text (for accent headings)
+   ============================================ */
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, var(--hig-blue) 0%, var(--hig-indigo) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-warm {
+  background: linear-gradient(135deg, var(--hig-orange) 0%, var(--hig-pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   No Scrollbar Utility
+   ============================================ */
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+   Enhanced Tab Bar (iOS Style)
+   ============================================ */
+
+/* Tab bar with floating pill indicator */
+.hig-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--glass-bg-elevated);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border-top: 0.5px solid var(--hig-separator);
+  padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
+}
+
+/* Tab item base */
+.hig-tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  border-radius: 16px;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  gap: 4px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Tab item inactive */
+.hig-tab-item[aria-selected="false"] {
+  color: var(--hig-secondaryLabel);
+}
+
+.hig-tab-item[aria-selected="false"]:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.dark .hig-tab-item[aria-selected="false"]:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Tab item active */
+.hig-tab-item[aria-selected="true"] {
+  color: var(--hig-blue);
+}
+
+/* Tab item active indicator */
+.hig-tab-item[aria-selected="true"]::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 3px;
+  background: var(--hig-blue);
+  border-radius: 1.5px;
+  animation: tabIndicatorIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes tabIndicatorIn {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+
+  100% {
+    width: 24px;
+    opacity: 1;
+  }
+}
+
+/* Tab icon styling */
+.hig-tab-icon {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hig-tab-item:active .hig-tab-icon {
+  transform: scale(0.9);
+}
+
+.hig-tab-item[aria-selected="true"] .hig-tab-icon {
+  transform: scale(1.1);
+}
+
+/* Tab label */
+.hig-tab-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================
+   HIG Form Elements
+   ============================================ */
+
+/* iOS-style text input */
+.hig-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  background: var(--hig-secondarySystemBackground);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 17px;
+  color: var(--hig-label);
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.hig-input::placeholder {
+  color: var(--hig-tertiaryLabel);
+}
+
+.hig-input:focus {
+  border-color: var(--hig-blue);
+  background: var(--hig-systemBackground);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+}
+
+.dark .hig-input {
+  background: var(--hig-tertiarySystemBackground);
+}
+
+.dark .hig-input:focus {
+  background: var(--hig-secondarySystemBackground);
+}
+
+/* iOS-style select/dropdown */
+.hig-select {
+  width: 100%;
+  height: 44px;
+  padding: 0 40px 0 16px;
+  background: var(--hig-secondarySystemBackground);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 17px;
+  color: var(--hig-label);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.hig-select:focus {
+  border-color: var(--hig-blue);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+}
+
+.dark .hig-select {
+  background-color: var(--hig-tertiarySystemBackground);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236E6E73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* iOS-style date input */
+.hig-date-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  background: var(--hig-secondarySystemBackground);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 17px;
+  color: var(--hig-label);
+  transition: all 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.hig-date-input:focus {
+  border-color: var(--hig-blue);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+}
+
+.dark .hig-date-input {
+  background: var(--hig-tertiarySystemBackground);
+  color-scheme: dark;
+}
+
+/* ============================================
+   HIG Segmented Control
+   ============================================ */
+
+.hig-segmented-control {
+  display: inline-flex;
+  background: var(--hig-secondarySystemBackground);
+  border-radius: 9px;
+  padding: 2px;
+  gap: 0;
+}
+
+.hig-segment {
+  position: relative;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--hig-label);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.hig-segment[aria-selected="true"] {
+  background: var(--hig-systemBackground);
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.12),
+    0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.dark .hig-segment[aria-selected="true"] {
+  background: var(--hig-tertiarySystemBackground);
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.3),
+    0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.hig-segment[aria-selected="false"] {
+  color: var(--hig-secondaryLabel);
+}
+
+.hig-segment[aria-selected="false"]:hover {
+  color: var(--hig-label);
+}
+
+/* ============================================
+   HIG Toggle Switch
+   ============================================ */
+
+.hig-toggle {
+  position: relative;
+  width: 51px;
+  height: 31px;
+  background: var(--hig-tertiarySystemBackground);
+  border-radius: 15.5px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.hig-toggle::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hig-toggle[aria-checked="true"] {
+  background: var(--hig-green);
+}
+
+.hig-toggle[aria-checked="true"]::before {
+  transform: translateX(20px);
+}
+
+/* ============================================
+   Form Field Label
+   ============================================ */
+
+.hig-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--hig-secondaryLabel);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+
+/* Form group container */
+.hig-form-group {
+  margin-bottom: 20px;
+}
+
+/* Inline form row */
+.hig-form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.hig-form-row>* {
+  flex: 1;
+}
+
+/* ============================================
+   Pill Button Group (for date presets, filters)
+   ============================================ */
+
+.hig-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hig-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 20px;
+  border: 1px solid var(--hig-separator);
+  background: var(--hig-systemBackground);
+  color: var(--hig-label);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hig-pill:hover {
+  background: var(--hig-secondarySystemBackground);
+}
+
+.hig-pill:active {
+  transform: scale(0.96);
+}
+
+.hig-pill[aria-selected="true"] {
+  background: var(--hig-blue);
+  border-color: var(--hig-blue);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.dark .hig-pill {
+  background: var(--hig-secondarySystemBackground);
+}
+
+.dark .hig-pill:hover {
+  background: var(--hig-tertiarySystemBackground);
+}
+
+/* ============================================
+   HIG Disclosure Button (for CollapsibleSection)
+   ============================================ */
+
+.hig-disclosure-button {
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 16px;
+}
+
+.hig-disclosure-button:focus-visible {
+  outline: 2px solid var(--hig-blue);
+  outline-offset: 2px;
+}
+
+.hig-disclosure-button:active {
+  transform: scale(0.99);
+}
+
+/* Disclosure chevron container */
+.hig-disclosure-chevron {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--hig-secondarySystemBackground);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hig-disclosure-chevron[data-expanded="true"] {
+  transform: rotate(90deg);
+  background: rgba(0, 122, 255, 0.1);
+}
+
+.hig-disclosure-chevron svg {
+  transition: color 0.2s ease;
+}
+
+.hig-disclosure-chevron[data-expanded="true"] svg {
+  color: var(--hig-blue);
+}
+
+/* ============================================
+   Enhanced Modal/Sheet System (iOS Style)
+   ============================================ */
+
+/* Modal Overlay with backdrop blur */
+.hig-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: modalOverlayIn 0.2s ease-out;
+}
+
+@keyframes modalOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Card */
+.hig-modal {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  max-height: 90vh;
+  background: var(--glass-bg-elevated);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 12px 24px -8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  animation: modalIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.dark .hig-modal {
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 12px 24px -8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Modal Header */
+.hig-modal-header {
+  padding: 20px 20px 16px;
+  border-bottom: 0.5px solid var(--hig-separator);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hig-modal-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--hig-label);
+}
+
+/* Modal Body */
+.hig-modal-body {
+  padding: 16px 20px;
+  overflow-y: auto;
+  max-height: calc(90vh - 140px);
+}
+
+/* Modal Footer */
+.hig-modal-footer {
+  padding: 16px 20px 20px;
+  border-top: 0.5px solid var(--hig-separator);
+  display: flex;
+  gap: 12px;
+}
+
+/* Bottom Sheet */
+.hig-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: modalOverlayIn 0.2s ease-out;
+}
+
+.hig-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  background: var(--glass-bg-elevated);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid var(--glass-border);
+  border-bottom: none;
+  border-radius: 24px 24px 0 0;
+  box-shadow:
+    0 -10px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  max-height: 90vh;
+  overflow: hidden;
+  animation: sheetSlideIn 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@keyframes sheetSlideIn {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.dark .hig-sheet {
+  box-shadow:
+    0 -10px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Sheet Grabber Handle - iOS style */
+.hig-sheet-grabber {
+  width: 36px;
+  height: 5px;
+  background: var(--hig-tertiaryLabel);
+  border-radius: 2.5px;
+  margin: 8px auto 16px;
+  opacity: 0.5;
+}
+
+/* Sheet Header */
+.hig-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 16px;
+  border-bottom: 0.5px solid var(--hig-separator);
+}
+
+/* Sheet Body */
+.hig-sheet-body {
+  padding: 16px 20px;
+  overflow-y: auto;
+  max-height: calc(90vh - 100px);
+}
+
+/* Close Button (X) for modals/sheets */
+.hig-close-button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--hig-tertiarySystemBackground);
+  color: var(--hig-secondaryLabel);
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.hig-close-button:hover {
+  background: var(--hig-quaternaryLabel);
+  color: var(--hig-label);
+}
+
+.hig-close-button:active {
+  transform: scale(0.95);
+}
+
+/* ============================================
+   Continuous Corner Radius (Superellipse)
+   ============================================ */
+
+/* iOS uses continuous/superellipse corners, not simple border-radius */
+/* This is a CSS approximation using clip-path for key components */
+
+.hig-continuous-corners {
+  /* Fallback to standard border-radius */
+  border-radius: 20px;
+  /* For browsers that support it, use mask for smoother curves */
+}
+
+/* ============================================
+   Duration Utilities
+   ============================================ */
+
+.duration-350 {
+  transition-duration: 350ms;
+}
+
+/* ============================================
+   WCAG AA Contrast Improvements
+   ============================================ */
+
+/* Placeholder text with improved contrast */
+::placeholder {
+  color: var(--hig-tertiaryLabel);
+  opacity: 1;
+  /* Override default browser opacity */
+}
+
+/* Input placeholder specific */
+input::placeholder,
+textarea::placeholder {
+  color: var(--hig-tertiaryLabel);
+}
+
+/* Chart text improvements - ensure axis labels and legends are readable */
+.chart-label,
+.chart-axis-label,
+.chart-legend-text {
+  color: var(--hig-secondaryLabel);
+  font-weight: 500;
+  /* Slightly bolder for better readability */
+}
+
+/* Ensure all muted/secondary text has adequate contrast */
+.text-muted,
+.text-secondary,
+[class*="text-gray-"],
+[class*="text-zinc-"],
+[class*="text-slate-"] {
+  color: var(--hig-secondaryLabel) !important;
+}
+
+/* Button states with proper contrast */
+.btn-secondary,
+.button-secondary {
+  color: var(--hig-secondaryLabel);
+  background: var(--hig-secondarySystemBackground);
+}
+
+.btn-secondary:hover,
+.button-secondary:hover {
+  color: var(--hig-label);
+}
+
+/* Unselected filter/tab button text */
+.filter-button:not([data-active="true"]),
+.tab-button:not([aria-selected="true"]) {
+  color: var(--hig-secondaryLabel);
+}
+
+/* Badge text on colored backgrounds - ensure white/black for contrast */
+.badge,
+.pill,
+.tag {
+  font-weight: 600;
+}
+
+/* Small text accessibility - increase minimum font weight */
+.text-xs,
+.text-\[11px\],
+.text-\[12px\] {
+  font-weight: 500;
+  /* Improve legibility at small sizes */
+}
+
+/* Focus indicator enhancement for visibility */
+:focus-visible {
+  outline: 2px solid var(--hig-blue);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.2);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --hig-secondaryLabel: rgba(60, 60, 67, 0.9);
+    --hig-tertiaryLabel: rgba(60, 60, 67, 0.75);
+    --hig-quaternaryLabel: rgba(60, 60, 67, 0.55);
+  }
+
+  .dark {
+    --hig-secondaryLabel: rgba(235, 235, 245, 0.9);
+    --hig-tertiaryLabel: rgba(235, 235, 245, 0.75);
+    --hig-quaternaryLabel: rgba(235, 235, 245, 0.55);
+  }
+
+  /* Increase border visibility */
+  .liquid-glass,
+  .liquid-glass-elevated,
+  .liquid-glass-clear {
+    border-width: 2px;
+  }
+}
+
+/* ============================================
+   Reduced Motion - Comprehensive Support
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  /* Disable ALL animations and transitions */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Specific component resets */
+  .hig-modal,
+  .hig-sheet,
+  .hig-modal-overlay,
+  .hig-sheet-overlay,
+  .hig-disclosure-button,
+  .hig-disclosure-chevron {
+    animation: none;
+    transition-duration: 0ms;
+  }
+
+  .hig-sheet {
+    transform: translateY(0);
+  }
+
+  .hig-modal {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  /* Disable spring animations */
+  .haptic-press:active,
+  .haptic-card:active {
+    transform: none;
+  }
+
+  /* Remove hover effects that cause motion */
+  .category-card:hover,
+  .liquid-glass:hover {
+    transform: none;
+  }
+}
+
+/* ============================================
+   Additional Accessibility Utilities
+   ============================================ */
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip to main content link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--hig-blue);
+  color: white;
+  padding: 8px 16px;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Ensure touch targets are at least 44x44px (HIG requirement) */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Visible focus for keyboard navigation */
+.keyboard-focus:focus-visible {
+  outline: 3px solid var(--hig-blue);
+  outline-offset: 3px;
+}
+
+/* ============================================
+   Pull-to-Refresh Enhanced Haptic Feedback
+   ============================================ */
+
+.pull-refresh-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--glass-bg-elevated);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pull-refresh-indicator.refreshing {
+  animation: pullRefreshPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pullRefreshPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.pull-refresh-spinner {
+  width: 16px;
+  height: 16px;
+  color: var(--hig-blue);
+  transition: transform 0.2s ease;
+}
+
+.pull-refresh-spinner.spinning {
+  animation: spin 1s linear infinite;
+}
+
+/* Haptic ripple effect on refresh trigger */
+.pull-refresh-ripple {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: var(--hig-blue);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: pullRipple 0.6s ease-out forwards;
+}
+
+@keyframes pullRipple {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   Context Menu & Long-Press Styles
+   ============================================ */
+
+/* Long-press active state */
+.long-press-target {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.long-press-target:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease-out;
+}
+
+/* Long-press visual indicator */
+.long-press-indicator {
+  position: relative;
+  overflow: hidden;
+}
+
+.long-press-indicator::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--press-x, 50%) var(--press-y, 50%),
+      rgba(0, 122, 255, 0.15) 0%,
+      transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.long-press-indicator.pressing::after {
+  opacity: 1;
+  animation: longPressGrow 0.5s ease-out forwards;
+}
+
+@keyframes longPressGrow {
+  0% {
+    transform: scale(0.5);
+  }
+
+  100% {
+    transform: scale(1.5);
+  }
+}
+
+/* Context menu backdrop */
+.context-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 100;
+  animation: contextFadeIn 0.15s ease-out;
+}
+
+@keyframes contextFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Context menu container */
+.context-menu {
+  position: fixed;
+  min-width: 200px;
+  max-width: 280px;
+  background: var(--glass-bg-elevated);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.15),
+    0 0 0 0.5px rgba(0, 0, 0, 0.05);
+  animation: contextMenuIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 101;
+}
+
+.dark .context-menu {
+  background: rgba(44, 44, 46, 0.95);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 0.5px rgba(255, 255, 255, 0.1);
+}
+
+@keyframes contextMenuIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Context menu item */
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--hig-label);
+  font-size: 15px;
+  font-weight: 500;
+  border-bottom: 0.5px solid var(--hig-separator);
+  transition: background-color 0.15s ease;
+}
+
+.context-menu-item:last-child {
+  border-bottom: none;
+}
+
+.context-menu-item:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.dark .context-menu-item:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.context-menu-item.destructive {
+  color: var(--hig-red);
+}
+
+.context-menu-item-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--hig-blue);
+}
+
+.context-menu-item.destructive .context-menu-item-icon {
+  color: var(--hig-red);
+}
+
+/* Context menu cancel button */
+.context-menu-cancel {
+  margin-top: 8px;
+  background: var(--glass-bg-elevated);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  color: var(--hig-blue);
+  font-size: 17px;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+}
+
+.context-menu-cancel:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.dark .context-menu-cancel {
+  background: rgba(44, 44, 46, 0.95);
+}
+
+.dark .context-menu-cancel:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   Empty State Styles
+   ============================================ */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.empty-state-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--hig-label);
+  margin-bottom: 8px;
+}
+
+.empty-state-message {
+  font-size: 14px;
+  color: var(--hig-secondaryLabel);
+  max-width: 280px;
+  line-height: 1.5;
+}
+
+.empty-state-action {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--hig-blue);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.empty-state-action:hover {
+  transform: translateY(-1px) translateZ(0);
+  box-shadow: 0 6px 16px rgba(0, 122, 255, 0.4);
+}
+
+.empty-state-action:active {
+  transform: scale(0.97) translateZ(0);
+}
+
+/* ============================================
+   Phase 6.1: Additional GPU-Accelerated Animation Fixes
+   ============================================ */
+
+/* Ensure all transforms use GPU compositing */
+.hig-tab-item,
+.hig-segment,
+.hig-pill,
+.hig-close-button,
+.btn-hig-primary,
+.btn-hig-secondary,
+.btn-hig-destructive,
+.context-menu-item,
+.context-menu-cancel {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize shimmer animation for GPU */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+    transform: translateZ(0);
+  }
+
+  100% {
+    background-position: 200% 0;
+    transform: translateZ(0);
+  }
+}
+
+/* ============================================
+   Phase 6.2: CSS Containment for Performance
+   ============================================ */
+
+/* Strict containment for independent sections */
+.responsive-container {
+  contain: layout style;
+}
+
+/* Cards contain their own paint */
+.category-card,
+.stat-card,
+.chart-container {
+  contain: layout paint style;
+}
+
+/* Modal overlay - isolate from main thread */
+.hig-modal-overlay,
+.hig-sheet-overlay,
+.context-menu-backdrop {
+  contain: strict;
+  isolation: isolate;
+}
+
+/* Lists benefit from content-visibility */
+.transaction-list,
+.category-list {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* ============================================
+   Phase 6.3: Safari & PWA Compatibility
+   ============================================ */
+
+/* iOS Safari fix for fixed positioning with blur */
+@supports (-webkit-touch-callout: none) {
+
+  .hig-tab-bar,
+  .glass-tab-bar {
+    /* Use 3D transform to create stacking context */
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* iOS scroll momentum fix */
+  .hig-modal-body,
+  .hig-sheet-body {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* iOS safe area support */
+  .safe-area-all {
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+  }
+}
+
+/* PWA standalone mode styles */
+@media (display-mode: standalone) {
+
+  /* Hide browser-specific UI */
+  .browser-only {
+    display: none !important;
+  }
+
+  /* Adjust for notch/dynamic island */
+  .pwa-header {
+    padding-top: max(16px, env(safe-area-inset-top));
+  }
+}
+
+/* PWA fullscreen mode */
+@media (display-mode: fullscreen) {
+  body {
+    padding-top: 0;
+  }
+}
+
+/* ============================================
+   Phase 6.3: Print Styles
+   ============================================ */
+
+@media print {
+
+  /* Hide non-essential UI */
+  .hig-tab-bar,
+  .glass-tab-bar,
+  .glass-nav,
+  .haptic-card,
+  .context-menu,
+  .context-menu-backdrop,
+  .hig-modal-overlay,
+  .hig-sheet-overlay,
+  .skip-link {
+    display: none !important;
+  }
+
+  /* Remove backgrounds for ink saving */
+  body,
+  html {
+    background: white !important;
+  }
+
+  .liquid-glass,
+  .liquid-glass-elevated,
+  .liquid-glass-translucent {
+    background: white !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: 0 0 0 1px #ddd !important;
+  }
+
+  /* Ensure text is readable */
+  * {
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+
+  /* Avoid page breaks in important sections */
+  .stat-card,
+  .category-card,
+  .chart-container {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
+/* ============================================
+   Phase 6.3: Performance Debug Utilities
+   ============================================ */
+
+/* Visualize layout shifts (dev only - uncomment to debug) */
+/*
+.debug-layout * {
+  outline: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+.debug-paint {
+  paint: geometry;
+}
+*/
+
+/* Force layer creation for debugging */
+.force-layer {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Performance hint: elements that won't change */
+.static-content {
+  will-change: auto;
+  contain: strict;
+}
+/* ============================================
+   Design System Utilities
+   ============================================ */
+
+.surface-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-1);
+  border-radius: var(--radius-lg);
+}
+
+.surface-card-subtle {
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.surface-elevated {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-2);
+  border-radius: var(--radius-xl);
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.section-kicker {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+}
+
+.section-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.kicker-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.display-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--brand-1), var(--brand-3));
+  color: white;
+  border-radius: 9999px;
+  font-weight: 800;
+  box-shadow: 0 14px 32px rgba(0, 117, 255, 0.25);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-strong);
+  border-radius: 9999px;
+  font-weight: 700;
+}
+
+.app-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 420px at 10% -10%, rgba(15, 118, 110, 0.18), transparent 60%),
+    radial-gradient(1000px 500px at 85% -20%, rgba(249, 115, 22, 0.16), transparent 60%),
+    linear-gradient(180deg, var(--surface-3), var(--surface-2));
+}
+
+.dark .app-shell {
+  background:
+    radial-gradient(1200px 420px at 10% -10%, rgba(14, 116, 144, 0.22), transparent 60%),
+    radial-gradient(1000px 500px at 85% -20%, rgba(59, 130, 246, 0.18), transparent 60%),
+    linear-gradient(180deg, var(--surface-3), var(--surface-2));
+}
+
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(240px 160px at 75% 20%, rgba(15, 118, 110, 0.18), transparent 60%),
+    radial-gradient(260px 200px at 15% 80%, rgba(249, 115, 22, 0.14), transparent 60%);
+  pointer-events: none;
+}
+
+.insight-tile {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-2);
+  padding: 14px;
+}
+
+.insight-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.insight-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-1);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.chart-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+}
+
+.glass-bar {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px);
+}
+
+.dark .glass-bar {
+  background: rgba(9, 12, 17, 0.72);
+  border-color: rgba(148, 163, 184, 0.12);
+}

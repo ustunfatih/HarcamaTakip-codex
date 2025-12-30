@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tr" class="antialiased">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
+  <title>Harcama Takip - YNAB Bütçe Raporu</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="YNAB verilerinizle kişisel harcama takibi ve bütçe yönetimi. Gelişmiş grafikler, yapay zeka destekli öneriler ve aile bütçe planlaması." />
+  <meta name="keywords" content="harcama takip, bütçe, YNAB, aile bütçesi, finans, para yönetimi" />
+  <meta name="author" content="HarcamaTakip" />
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Harcama Takip - YNAB Bütçe Raporu" />
+  <meta property="og:description" content="Kişisel harcama takibi ve bütçe yönetimi uygulaması." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="tr_TR" />
+
+  <!-- Theme Color for Mobile Browsers -->
+  <meta name="theme-color" content="#007AFF" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1C1C1E" media="(prefers-color-scheme: dark)" />
+  <meta name="color-scheme" content="light dark" />
+
+  <!-- Performance: Preconnect to CDN -->
+  <link rel="preconnect" href="https://aistudiocdn.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin />
+  <link rel="dns-prefetch" href="https://aistudiocdn.com" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- iOS Web App Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Harcama Takip" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <!-- Tailwind CSS (Standalone) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            // Design System Palette
+            dssPrimary: '#007AFF', // Primary Blue
+            dssSecondary: '#5856D6', // Deep Purple
+            dssSuccess: '#34C759', // Success Green
+            dssWarning: '#FF9500', // Warning Orange
+            dssError: '#FF3B30', // Error Red
+            dssLabel: '#1D1D1F',
+            dssSecondaryLabel: '#6E6E73',
+            dssTertiaryLabel: '#AEAEB2',
+            dssBackground: '#F5F5F7',
+            dssGlassTint: '#E8F4FD',
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'San Francisco', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'sans-serif'],
+          },
+          boxShadow: {
+            'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+            'glass-dark': '0 8px 32px 0 rgba(0, 0, 0, 0.5)',
+          },
+          animation: {
+            blob: "blob 10s infinite",
+          },
+          keyframes: {
+            blob: {
+              "0%": { transform: "translate(0px, 0px) scale(1)" },
+              "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+              "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+              "100%": { transform: "translate(0px, 0px) scale(1)" },
+            },
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./index.css">
+
+  <!-- Prevent Flash of Wrong Theme -->
+  <script>
+      (function () {
+        try {
+          const localTheme = localStorage.getItem('theme');
+          const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (localTheme === 'dark' || (!localTheme && supportDarkMode)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) { }
+      })();
+  </script>
+
+  <!-- Dynamic Favicon -->
+  <script>
+    (function () {
+      const size = 180;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      // Gradient Background
+      const grad = ctx.createLinearGradient(0, 0, size, size);
+      grad.addColorStop(0, '#38bdf8'); // Sky Blue
+      grad.addColorStop(1, '#4ade80'); // Emerald Green
+      ctx.fillStyle = grad;
+
+      // Rounded Rectangle (iOS style)
+      const radius = 40;
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(size - radius, 0);
+      ctx.quadraticCurveTo(size, 0, size, radius);
+      ctx.lineTo(size, size - radius);
+      ctx.quadraticCurveTo(size, size, size - radius, size);
+      ctx.lineTo(radius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      // TL Symbol
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold 110px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('₺', size / 2, size / 1.85);
+
+      // Convert to PNG URL
+      const dataUrl = canvas.toDataURL('image/png');
+
+      // Update Links
+      const linkFavicon = document.createElement('link');
+      linkFavicon.rel = 'icon';
+      linkFavicon.href = dataUrl;
+      document.head.appendChild(linkFavicon);
+
+      const linkApple = document.createElement('link');
+      linkApple.rel = 'apple-touch-icon';
+      linkApple.href = dataUrl;
+      document.head.appendChild(linkApple);
+    })();
+  </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "recharts": "https://aistudiocdn.com/recharts@^3.5.1",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.2",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.32.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.7",
+    "lz-string": "https://aistudiocdn.com/lz-string@^1.5.0"
+  }
+}
+</script>
+</head>
+
+<body
+  class="bg-dssBackground dark:bg-black text-dssLabel dark:text-white transition-colors duration-300 selection:bg-dssPrimary selection:text-white overscroll-none">
+  <!-- Skip to Main Content (Accessibility) -->
+  <a href="#main-content" class="skip-link">İçeriğe Atla</a>
+
+  <!-- Ambient Background Blobs (Liquid Glass) - GPU Optimized -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0" style="contain: strict;" aria-hidden="true">
+    <div
+      class="absolute bg-blue-400 dark:bg-blue-600 w-96 h-96 rounded-full top-[-10%] left-[-10%] mix-blend-multiply dark:mix-blend-normal opacity-40 dark:opacity-15 blur-[100px] animate-blob gpu-accelerated">
+    </div>
+    <div
+      class="absolute bg-purple-400 dark:bg-purple-600 w-96 h-96 rounded-full top-[-10%] right-[-10%] mix-blend-multiply dark:mix-blend-normal opacity-40 dark:opacity-15 blur-[100px] animate-blob animation-delay-2000 gpu-accelerated">
+    </div>
+    <div
+      class="absolute bg-pink-400 dark:bg-pink-600 w-96 h-96 rounded-full bottom-[-10%] left-[20%] mix-blend-multiply dark:mix-blend-normal opacity-40 dark:opacity-15 blur-[100px] animate-blob animation-delay-4000 gpu-accelerated">
+    </div>
+  </div>
+
+  <main id="main-content" class="relative z-10">
+    <div id="root"></div>
+  </main>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>

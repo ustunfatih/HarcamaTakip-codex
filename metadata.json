@@ -1,0 +1,5 @@
+{
+  "name": "Harcama Takip",
+  "description": "YNAB verilerini kullanarak görsel, paylaşılabilir harcama raporları oluşturun.",
+  "requestFramePermissions": []
+}
