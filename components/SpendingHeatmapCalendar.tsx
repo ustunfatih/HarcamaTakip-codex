@@ -37,7 +37,7 @@ export const SpendingHeatmapCalendar: React.FC<{ reportData: ReportData }> = ({ 
 
   return (
     <div className="chart-panel p-5">
-      <div className="flex items-center gap-2 mb-4 text-gray-500 uppercase text-[10px] font-bold"><Calendar size={14} /><span>Harcama Haritasi</span></div>
+      <div className="flex items-center gap-2 mb-4 text-gray-500 uppercase text-[10px] font-bold"><Calendar size={14} /><span>Harcama Haritası</span></div>
       <div className="flex gap-1 overflow-x-auto pb-2 no-scrollbar">
         {data.weeks.map((w, i) => (
           <div key={i} className="flex flex-col gap-1">
