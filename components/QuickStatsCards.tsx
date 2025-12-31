@@ -43,7 +43,6 @@ export const QuickStatsCards: React.FC<QuickStatsCardsProps> = ({ reportData }) 
             <AnimatedCounter
               value={stat.value}
               format={stat.format}
-              decimals={stat.format === 'percentage' ? 1 : 0}
               prefix={stat.prefix || ''}
               delay={index * 100}
               className="text-[18px] font-black tracking-tighter text-[#191919] dark:text-white leading-none"

@@ -66,7 +66,7 @@ export const FuturePaymentsChart: React.FC<FuturePaymentsChartProps> = ({ monthl
 
             <YAxis hide />
 
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0,0,0,0.03)', radius: [12, 12, 0, 0] }} />
+            <Tooltip content={<CustomTooltip />} />
             <Bar
               dataKey="total"
               radius={[20, 20, 20, 20]}

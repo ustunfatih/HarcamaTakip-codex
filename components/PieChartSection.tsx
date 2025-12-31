@@ -131,7 +131,7 @@ export const PieChartSection: React.FC<PieChartSectionProps> = ({ categories, on
               onClick={() => setShowOther((v) => !v)}
               className="chip"
             >
-              {showOther ? 'Digeri gizle' : 'Digeri ac'}
+              {showOther ? 'Diğeri gizle' : 'Diğeri aç'}
             </button>
             {showOther && (
               <div className="mt-3 space-y-2">

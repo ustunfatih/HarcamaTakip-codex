@@ -27,8 +27,8 @@ export const MerchantParetoChart: React.FC<MerchantParetoChartProps> = ({ data, 
     <div className="chart-panel p-4">
       <div className="section-header">
         <span className="section-kicker">PARETO</span>
-        <h2 className="section-title">Satici Yogunlugu</h2>
-        <p className="section-subtitle">Harcamalarin buyuk bolumu az sayida saticida</p>
+        <h2 className="section-title">Satıcı Yoğunluğu</h2>
+        <p className="section-subtitle">Harcamaların büyük bölümü az sayıda satıcıda</p>
       </div>
       <div className="h-56">
         <ResponsiveContainer width="100%" height="100%">

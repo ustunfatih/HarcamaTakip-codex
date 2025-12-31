@@ -333,7 +333,7 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                         <div className="relative z-10">
                             <div className="flex items-center justify-between mb-6">
                                 <div className="chip">{selectedDatePreset === 'custom' ? `${startDate} / ${endDate}` : formatDateRange(reportData.startDate, reportData.endDate)}</div>
-                                <div className="chip">{derived.spendTxCount} ISLEM</div>
+                                <div className="chip">{derived.spendTxCount} İŞLEM</div>
                             </div>
                             <div className="text-5xl display-title text-[#191919] dark:text-white mb-3">
                                 <AnimatedCounter value={reportData.totalSpent} format="currency" smallDecimals={true} />
@@ -383,8 +383,8 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                         <section className="pt-2 space-y-8 animate-fade-in">
                             <div className="section-header">
                                 <span className="section-kicker">INSIGHT</span>
-                                <h2 className="section-title">Akilli Ozet</h2>
-                                <p className="section-subtitle">Harcama davranisini tek bakista yakala</p>
+                                <h2 className="section-title">Akıllı Özet</h2>
+                                <p className="section-subtitle">Harcama davranışını tek bakışta yakala</p>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -399,9 +399,9 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                                     <div className="section-subtitle">Toplam harcama icinde</div>
                                 </div>
                                 <div className="insight-tile">
-                                    <div className="insight-label">Ilk 3 Satici</div>
+                                    <div className="insight-label">İlk 3 Satıcı</div>
                                     <div className="insight-value">%{derived.topMerchantShare.toFixed(0)}</div>
-                                    <div className="section-subtitle">Yogunluk orani</div>
+                                    <div className="section-subtitle">Yoğunluk oranı</div>
                                 </div>
                             </div>
 
@@ -409,15 +409,15 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                                 <>
                                     <div className="section-header">
                                         <span className="section-kicker">YILLIK</span>
-                                        <h2 className="section-title">{reportData.comparisonConfig?.title || 'Yillik Kumulatif'}</h2>
-                                        <p className="section-subtitle">{reportData.comparisonConfig?.subtitle || 'Bu yil vs gecen yil'}</p>
+                                        <h2 className="section-title">{reportData.comparisonConfig?.title || 'Yıllık Kümülatif'}</h2>
+                                        <p className="section-subtitle">{reportData.comparisonConfig?.subtitle || 'Bu yıl vs geçen yıl'}</p>
                                     </div>
                                     <div className="flex flex-wrap gap-2 mb-4">
                                         <span className="chip">
                                             {derived.yearlyDelta >= 0 ? '+' : '-'}{formatCurrency(Math.abs(derived.yearlyDelta))} YTD fark
                                         </span>
                                         {derived.yearlyDeltaPct !== 0 && (
-                                            <span className="chip">%{Math.abs(derived.yearlyDeltaPct).toFixed(1)} degisim</span>
+                                            <span className="chip">%{Math.abs(derived.yearlyDeltaPct).toFixed(1)} değişim</span>
                                         )}
                                     </div>
                                     <MonthComparisonChart
@@ -429,8 +429,8 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
 
                             <div className="section-header">
                                 <span className="section-kicker">KATEGORI PAYI</span>
-                                <h2 className="section-title">Harcama Dagilimi</h2>
-                                <p className="section-subtitle">En yuksek harcama kalemleri</p>
+                                <h2 className="section-title">Harcama Dağılımı</h2>
+                                <p className="section-subtitle">En yüksek harcama kalemleri</p>
                             </div>
                             <PieChartSection
                                 categories={reportData.categories}
@@ -470,8 +470,8 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                         <div className="space-y-8">
                             <div className="section-header">
                                 <span className="section-kicker">DURUM</span>
-                                <h2 className="section-title">Anlik Rapor</h2>
-                                <p className="section-subtitle">Hizli istatistikler ve erken uyarilar</p>
+                                <h2 className="section-title">Anlık Rapor</h2>
+                                <p className="section-subtitle">Hızlı istatistikler ve erken uyarılar</p>
                             </div>
                             <QuickStatsCards reportData={reportData} />
 
@@ -482,16 +482,16 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                                     <p className="section-subtitle">Duzenli odeme ihtimali</p>
                                 </div>
                                 <div className="surface-card p-4">
-                                    <div className="kicker-label mb-2">Cifte Islem</div>
+                                    <div className="kicker-label mb-2">Çifte İşlem</div>
                                     <div className="text-xl font-bold text-[#191919] dark:text-white">{reportData.potentialDuplicates?.length || 0}</div>
                                     <p className="section-subtitle">Benzer gun ve tutar</p>
                                 </div>
                             </div>
 
                             <div className="section-header">
-                                <span className="section-kicker">RITIM</span>
-                                <h2 className="section-title">Harcama Nabzi</h2>
-                                <p className="section-subtitle">Beklenen pace ile karsilastirma</p>
+                                <span className="section-kicker">RİTİM</span>
+                                <h2 className="section-title">Harcama Nabzı</h2>
+                                <p className="section-subtitle">Beklenen pace ile karşılaştırma</p>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div className="surface-card p-4">
@@ -499,7 +499,7 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                                     <div className="text-xl font-bold text-[#191919] dark:text-white">
                                         %{derived.pulse ? derived.pulse.toFixed(0) : 0}
                                     </div>
-                                    <p className="section-subtitle">Tarihsel ortalamaya gore</p>
+                                    <p className="section-subtitle">Tarihsel ortalamaya göre</p>
                                 </div>
                                 <div className="surface-card p-4">
                                     <div className="kicker-label mb-2">Tasarruf Orani</div>
@@ -512,8 +512,8 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
 
                             <div className="section-header">
                                 <span className="section-kicker">SATICILAR</span>
-                                <h2 className="section-title">En Cok Harcama</h2>
-                                <p className="section-subtitle">En cok gidilen noktalar</p>
+                                <h2 className="section-title">En Çok Harcama</h2>
+                                <p className="section-subtitle">En çok gidilen noktalar</p>
                             </div>
 
                             <div className="surface-card p-4 space-y-3">
@@ -537,8 +537,8 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
 
                             <div className="section-header">
                                 <span className="section-kicker">HAREKET</span>
-                                <h2 className="section-title">Kategori Degisimi</h2>
-                                <p className="section-subtitle">Gecen doneme gore en buyuk sapmalar</p>
+                                <h2 className="section-title">Kategori Değişimi</h2>
+                                <p className="section-subtitle">Geçen döneme göre en büyük sapmalar</p>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -569,9 +569,9 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                             </div>
 
                             <div className="section-header">
-                                <span className="section-kicker">RITIM</span>
-                                <h2 className="section-title">Haftalik Dagilim</h2>
-                                <p className="section-subtitle">Gunlere gore harcama yogunlugu</p>
+                                <span className="section-kicker">RİTİM</span>
+                                <h2 className="section-title">Haftalık Dağılım</h2>
+                                <p className="section-subtitle">Günlere göre harcama yoğunluğu</p>
                             </div>
                             <DayOfWeekChart reportData={reportData} />
 
@@ -584,16 +584,16 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                             </div>
 
                             <div className="section-header">
-                                <span className="section-kicker">ZAMAN HARITASI</span>
-                                <h2 className="section-title">Gunluk Isik Haritasi</h2>
-                                <p className="section-subtitle">Gunluk harcamayi goreyim</p>
+                                <span className="section-kicker">ZAMAN HARİTASI</span>
+                                <h2 className="section-title">Günlük Işık Haritası</h2>
+                                <p className="section-subtitle">Günlük harcamayı göreyim</p>
                             </div>
                             <SpendingHeatmapCalendar reportData={reportData} />
 
                             <div className="section-header">
                                 <span className="section-kicker">DALGALANMA</span>
                                 <h2 className="section-title">Kategori Volatilitesi</h2>
-                                <p className="section-subtitle">En degisken harcama alanlari</p>
+                                <p className="section-subtitle">En değişken harcama alanları</p>
                             </div>
                             <div className="surface-card p-4 space-y-3">
                                 {derived.categoryVolatility.map((c) => (
@@ -608,12 +608,12 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                             </div>
 
                             <div className="section-header">
-                                <span className="section-kicker">ANOMALI</span>
-                                <h2 className="section-title">Asiri Harcama Gunleri</h2>
-                                <p className="section-subtitle">Ust sinirin uzerindeki gunler</p>
+                                <span className="section-kicker">ANOMALİ</span>
+                                <h2 className="section-title">Aşırı Harcama Günleri</h2>
+                                <p className="section-subtitle">Üst sınırın üzerindeki günler</p>
                             </div>
                             <div className="surface-card p-4 space-y-3">
-                                {derived.anomalies.length === 0 && <div className="text-sm text-gray-400">Anomali bulunamadi</div>}
+                                {derived.anomalies.length === 0 && <div className="text-sm text-gray-400">Anomali bulunamadı</div>}
                                 {derived.anomalies.map((a) => (
                                     <div key={a.date} className="flex items-center justify-between">
                                         <div className="min-w-0">
@@ -626,12 +626,12 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                             </div>
 
                             <div className="section-header">
-                                <span className="section-kicker">ABONELIK</span>
-                                <h2 className="section-title">Tekrarlayan Odemeler</h2>
-                                <p className="section-subtitle">Aylik ve yillik tahmin</p>
+                                <span className="section-kicker">ABONELİK</span>
+                                <h2 className="section-title">Tekrarlayan Ödemeler</h2>
+                                <p className="section-subtitle">Aylık ve yıllık tahmin</p>
                             </div>
                             <div className="surface-card p-4 space-y-3">
-                                {derived.recurringInsights.length === 0 && <div className="text-sm text-gray-400">Tekrarlayan odeme bulunamadi</div>}
+                                {derived.recurringInsights.length === 0 && <div className="text-sm text-gray-400">Tekrarlayan ödeme bulunamadı</div>}
                                 {derived.recurringInsights.map((r) => (
                                     <div key={r.payee} className="flex items-center justify-between">
                                         <div className="min-w-0">
@@ -651,26 +651,26 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                     <div className={`transition-all duration-500 ${isScrolled ? 'pt-16' : ''}`}>
                         <div className="space-y-8">
                             <div className="section-header">
-                                <span className="section-kicker">AI OZET</span>
-                                <h2 className="section-title">Akilli Anlati</h2>
-                                <p className="section-subtitle">Kisa, net ve eyleme donuk</p>
+                                <span className="section-kicker">AI ÖZET</span>
+                                <h2 className="section-title">Akıllı Anlatı</h2>
+                                <p className="section-subtitle">Kısa, net ve eyleme dönük</p>
                             </div>
                             <div className="surface-card p-4 space-y-2">
-                                <div className="text-sm text-[#191919] dark:text-white font-semibold">Bu donemde {formatCurrency(derived.total)} harcandi.</div>
-                                <div className="text-sm text-gray-500">En baskin kategori {derived.topCategory?.categoryName || 'belirsiz'} ve toplam payi %{derived.topCategoryShare.toFixed(0)}.</div>
-                                <div className="text-sm text-gray-500">Hafta sonu yogunlugu %{derived.weekendShare.toFixed(0)} ile belirgin.</div>
+                                <div className="text-sm text-[#191919] dark:text-white font-semibold">Bu dönemde {formatCurrency(derived.total)} harcandı.</div>
+                                <div className="text-sm text-gray-500">En baskın kategori {derived.topCategory?.categoryName || 'belirsiz'} ve toplam payı %{derived.topCategoryShare.toFixed(0)}.</div>
+                                <div className="text-sm text-gray-500">Hafta sonu yoğunluğu %{derived.weekendShare.toFixed(0)} ile belirgin.</div>
                             </div>
 
                             <div className="section-header">
                                 <span className="section-kicker">AI SORULAR</span>
-                                <h2 className="section-title">Hizli Sorgular</h2>
-                                <p className="section-subtitle">Sik sorulan sorulari kopyala</p>
+                                <h2 className="section-title">Hızlı Sorgular</h2>
+                                <p className="section-subtitle">Sık sorulan soruları kopyala</p>
                             </div>
                             <div className="flex flex-wrap gap-2">
                                 {[
-                                    'Bu ay harcama neden artti?',
-                                    'Hangi kategori azaltilmali?',
-                                    'Hafta sonu harcamasi nasil dengelenir?',
+                                    'Bu ay harcama neden arttı?',
+                                    'Hangi kategori azaltılmalı?',
+                                    'Hafta sonu harcaması nasıl dengelenir?',
                                     'En riskli abonelikler hangileri?'
                                 ].map((q) => (
                                     <button
@@ -682,15 +682,15 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                                         }}
                                         className="chip"
                                     >
-                                        {copiedPrompt === q ? 'Kopyalandi' : q}
+                                        {copiedPrompt === q ? 'Kopyalandı' : q}
                                     </button>
                                 ))}
                             </div>
 
                             <div className="section-header">
                                 <span className="section-kicker">AI GOAL</span>
-                                <h2 className="section-title">Hedef Kocu</h2>
-                                <p className="section-subtitle">Tasarruf hedefine gore plan</p>
+                                <h2 className="section-title">Hedef Koçu</h2>
+                                <p className="section-subtitle">Tasarruf hedefine göre plan</p>
                             </div>
                             <div className="surface-card p-4 space-y-3">
                                 <label className="kicker-label">Aylik Hedef (₺)</label>
@@ -699,9 +699,9 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                                     value={aiTarget || ''}
                                     onChange={(e) => setAiTarget(Number(e.target.value))}
                                     className="w-full px-4 py-3 bg-gray-100 dark:bg-zinc-800 rounded-xl text-[#191919] dark:text-white font-bold text-base border-2 border-transparent focus:border-emerald-500 focus:outline-none transition-all"
-                                    placeholder="Orn: 5000"
+                                    placeholder="Örn: 5000"
                                 />
-                                <div className="text-sm text-gray-500">Hedefe ulasmak icin ilk 3 kategoriden kucuk dususler onerilir.</div>
+                                <div className="text-sm text-gray-500">Hedefe ulaşmak için ilk 3 kategoriden küçük düşüşler önerilir.</div>
                                 <div className="space-y-2">
                                     {aiTarget > 0 && reportData.categories.slice(0, 3).map((c) => (
                                         <div key={c.categoryId} className="flex items-center justify-between">
