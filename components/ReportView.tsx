@@ -479,7 +479,7 @@ export const ReportView: React.FC<ReportViewProps> = (props) => {
                                 <div className="surface-card p-4">
                                     <div className="kicker-label mb-2">Tekrarlayanlar</div>
                                     <div className="text-xl font-bold text-[#191919] dark:text-white">{reportData.recurringItems?.length || 0}</div>
-                                    <p className="section-subtitle">Duzenli odeme ihtimali</p>
+                                    <p className="section-subtitle">Düzenli ödeme ihtimali</p>
                                 </div>
                                 <div className="surface-card p-4">
                                     <div className="kicker-label mb-2">Çifte İşlem</div>
