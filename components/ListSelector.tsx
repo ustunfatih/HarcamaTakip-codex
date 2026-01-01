@@ -25,9 +25,9 @@ export const ListSelector: React.FC<ListSelectorProps> = ({ label, value, displa
                 className="w-full flex items-center justify-between p-4 surface-card group active:scale-[0.98] transition-all"
             >
                 <div className="flex flex-col items-start">
-                    <span className="text-[17px] font-black text-[#191919] dark:text-white tracking-tight leading-tight">{displayValue}</span>
+                    <span className="text-[17px] font-black text-strong tracking-tight leading-tight">{displayValue}</span>
                 </div>
-                <ChevronRight size={18} className={`text-gray-300 transition-transform ${isOpen ? 'rotate-90 text-[#0f766e]' : ''}`} />
+                <ChevronRight size={18} className={`text-gray-300 transition-transform ${isOpen ? 'rotate-90 text-brand' : ''}`} />
             </button>
 
             {isOpen && (
@@ -41,7 +41,7 @@ export const ListSelector: React.FC<ListSelectorProps> = ({ label, value, displa
               `}
                         >
                             <div className="flex flex-col items-start">
-                                <span className={`text-sm font-black uppercase tracking-tight ${value === opt.id ? 'text-white' : 'text-[#191919] dark:text-white'}`}>{opt.label}</span>
+                                <span className={`text-sm font-black uppercase tracking-tight ${value === opt.id ? 'text-white' : 'text-strong'}`}>{opt.label}</span>
                                 {opt.sublabel && <span className={`text-[10px] font-bold ${value === opt.id ? 'text-white/60' : 'text-gray-400'}`}>{opt.sublabel}</span>}
                             </div>
                             {value === opt.id && <Check size={18} />}

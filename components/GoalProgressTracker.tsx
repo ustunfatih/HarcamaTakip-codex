@@ -76,16 +76,16 @@ export const GoalProgressTracker: React.FC<GoalProgressTrackerProps> = ({
   };
 
   return (
-    <div className="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-xl border border-black/5 dark:border-white/10 rounded-2xl p-5">
+    <div className="surface-card surface-card--muted backdrop-blur-xl rounded-2xl p-5">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Target className="w-4 h-4 text-[#6E6E73]" />
-          <span className="text-[12px] font-semibold text-[#6E6E73] dark:text-[#8E8E93] uppercase tracking-wider">
+          <Target className="w-4 h-4 text-muted" />
+          <span className="text-[12px] font-semibold text-muted uppercase tracking-wider">
             Tasarruf Hedefleri
           </span>
         </div>
-        <span className="text-[12px] text-[#6E6E73] dark:text-[#8E8E93]">
+        <span className="text-[12px] text-muted">
           {goals.length} hedef
         </span>
       </div>
@@ -104,8 +104,8 @@ export const GoalProgressTracker: React.FC<GoalProgressTrackerProps> = ({
               onClick={() => setSelectedGoal(selectedGoal?.id === goal.id ? null : goal)}
               className={`w-full text-left p-4 rounded-xl transition-all min-h-[72px] ${
                 selectedGoal?.id === goal.id
-                  ? 'bg-[#F5F5F7] dark:bg-[#2C2C2E] ring-2 ring-ios-blue/30'
-                  : 'bg-[#F5F5F7]/50 dark:bg-[#2C2C2E]/50 hover:bg-[#F5F5F7] dark:hover:bg-[#2C2C2E]'
+                  ? 'bg-surface-2 ring-2 ring-blue-200/40'
+                  : 'bg-surface-2-soft hover-surface-2'
               }`}
             >
               <div className="flex items-center justify-between mb-2">
@@ -114,11 +114,11 @@ export const GoalProgressTracker: React.FC<GoalProgressTrackerProps> = ({
                     className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: goal.color }}
                   />
-                  <span className="text-[15px] font-semibold text-[#1D1D1F] dark:text-white">
+                  <span className="text-[15px] font-semibold text-strong">
                     {goal.name}
                   </span>
                   {isComplete && (
-                    <CheckCircle className="w-4 h-4 text-ios-green" />
+                    <CheckCircle className="w-4 h-4 text-success" />
                   )}
                 </div>
                 <span className="text-[13px] font-bold" style={{ color: goal.color }}>
@@ -127,7 +127,7 @@ export const GoalProgressTracker: React.FC<GoalProgressTrackerProps> = ({
               </div>
 
               {/* Progress Bar */}
-              <div className="h-2 bg-white dark:bg-[#3A3A3C] rounded-full overflow-hidden mb-2">
+              <div className="h-2 bg-surface rounded-full overflow-hidden mb-2">
                 <div
                   className="h-full rounded-full transition-all duration-500"
                   style={{
@@ -139,11 +139,11 @@ export const GoalProgressTracker: React.FC<GoalProgressTrackerProps> = ({
 
               {/* Stats Row */}
               <div className="flex items-center justify-between text-[11px]">
-                <span className="text-[#6E6E73] dark:text-[#8E8E93]">
+                <span className="text-muted">
                   {formatCurrency(goal.savedAmount)} / {formatCurrency(goal.targetAmount)}
                 </span>
                 {timeRemaining && (
-                  <span className="text-[#8E8E93]">{timeRemaining} kaldı</span>
+                  <span className="text-muted">{timeRemaining} kaldı</span>
                 )}
               </div>
 
@@ -152,16 +152,16 @@ export const GoalProgressTracker: React.FC<GoalProgressTrackerProps> = ({
                 <div className="mt-3 pt-3 border-t border-black/5 dark:border-white/10 animate-fade-in">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <div className="text-[10px] font-semibold text-[#8E8E93] uppercase">
+                      <div className="text-[10px] font-semibold text-muted uppercase">
                         Kalan Miktar
                       </div>
-                      <div className="text-[15px] font-bold text-[#1D1D1F] dark:text-white">
+                      <div className="text-[15px] font-bold text-strong">
                         {formatCurrency(goal.targetAmount - goal.savedAmount)}
                       </div>
                     </div>
                     {monthlyRequired && (
                       <div>
-                        <div className="text-[10px] font-semibold text-[#8E8E93] uppercase">
+                        <div className="text-[10px] font-semibold text-muted uppercase">
                           Aylık Gereken
                         </div>
                         <div className="text-[15px] font-bold" style={{ color: goal.color }}>
@@ -181,18 +181,18 @@ export const GoalProgressTracker: React.FC<GoalProgressTrackerProps> = ({
       <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/10">
         <div className="flex justify-between items-center">
           <div>
-            <div className="text-[11px] font-semibold text-[#6E6E73] dark:text-[#8E8E93] uppercase">
+            <div className="text-[11px] font-semibold text-muted uppercase">
               Toplam Tasarruf
             </div>
-            <div className="text-[20px] font-bold text-ios-green">
+            <div className="text-[20px] font-bold text-success">
               {formatCurrency(goals.reduce((sum, g) => sum + g.savedAmount, 0))}
             </div>
           </div>
           <div className="text-right">
-            <div className="text-[11px] font-semibold text-[#6E6E73] dark:text-[#8E8E93] uppercase">
+            <div className="text-[11px] font-semibold text-muted uppercase">
               Toplam Hedef
             </div>
-            <div className="text-[20px] font-bold text-[#1D1D1F] dark:text-white">
+            <div className="text-[20px] font-bold text-strong">
               {formatCurrency(goals.reduce((sum, g) => sum + g.targetAmount, 0))}
             </div>
           </div>

@@ -50,7 +50,7 @@ export const DayOfWeekChart: React.FC<{ reportData: ReportData }> = ({ reportDat
     <div className="chart-panel p-6">
       <div className="flex justify-end mb-6 px-1">
         <div className="text-right">
-          <span className="text-lg font-black text-[#191919] dark:text-white">{formatCurrency(avg)}</span>
+          <span className="text-lg font-black text-strong">{formatCurrency(avg)}</span>
           <div className="kicker-label">ORTALAMA</div>
         </div>
       </div>
@@ -84,11 +84,11 @@ export const DayOfWeekChart: React.FC<{ reportData: ReportData }> = ({ reportDat
         <div className="p-4 bg-black/5 dark:bg-white/5 rounded-2xl animate-spring-in border border-black/5 dark:border-white/5">
           <div className="flex justify-between items-center">
             <div>
-              <div className="text-[14px] font-black text-[#191919] dark:text-white uppercase tracking-tight">{data[sel].full}</div>
+              <div className="text-[14px] font-black text-strong uppercase tracking-tight">{data[sel].full}</div>
               <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{data[sel].count} İŞLEM BULUNUYOR</div>
             </div>
             <div className="text-right">
-              <div className="text-xl font-black text-[#191919] dark:text-white tracking-tighter">{formatCurrency(data[sel].amt)}</div>
+              <div className="text-xl font-black text-strong tracking-tighter">{formatCurrency(data[sel].amt)}</div>
               <div className={`text-[10px] font-black uppercase tracking-widest flex items-center justify-end gap-1 ${data[sel].amt > avg ? 'text-orange-500' : 'text-green-500'}`}>
                 {data[sel].amt > avg ? '▲ ORT. ÜSTÜ' : '▼ ORT. ALTI'}
               </div>

@@ -45,7 +45,7 @@ export const QuickStatsCards: React.FC<QuickStatsCardsProps> = ({ reportData }) 
               format={stat.format}
               prefix={stat.prefix || ''}
               delay={index * 100}
-              className="text-[18px] font-black tracking-tighter text-[#191919] dark:text-white leading-none"
+              className="text-[18px] font-black tracking-tighter text-strong leading-none"
             />
           </div>
 

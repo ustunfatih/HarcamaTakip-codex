@@ -4,8 +4,8 @@ import { ReportData } from '../types';
 import { formatCurrency } from '../utils';
 
 const COLORS = {
-  light: ['bg-[#f1f5f9]', 'bg-[#e0f2fe]', 'bg-[#bae6fd]', 'bg-[#7dd3fc]', 'bg-[#38bdf8]', 'bg-[#0ea5e9]'],
-  dark: ['bg-[#0b0f14]', 'bg-[#083344]', 'bg-[#0f4c5c]', 'bg-[#0e7490]', 'bg-[#0ea5e9]', 'bg-[#38bdf8]']
+  light: ['heatmap-0', 'heatmap-1', 'heatmap-2', 'heatmap-3', 'heatmap-4', 'heatmap-5'],
+  dark: ['heatmap-0', 'heatmap-1', 'heatmap-2', 'heatmap-3', 'heatmap-4', 'heatmap-5']
 };
 
 export const SpendingHeatmapCalendar: React.FC<{ reportData: ReportData }> = ({ reportData }) => {

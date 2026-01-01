@@ -55,7 +55,7 @@ export const CategoryCard: React.FC<{ category: CategorySpending, colorIndex: nu
       <div className="flex items-center p-4 gap-4">
         <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: color.bg }}><Icon size={24} color={color.ic} /></div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-[17px] font-black tracking-tight text-[#191919] dark:text-white uppercase truncate">{category.categoryName}</h3>
+          <h3 className="text-[17px] font-black tracking-tight text-strong uppercase truncate">{category.categoryName}</h3>
           <p className="kicker-label">{category.transactions.length} İŞLEM</p>
         </div>
         <div className="flex items-center gap-3">
@@ -69,7 +69,7 @@ export const CategoryCard: React.FC<{ category: CategorySpending, colorIndex: nu
           {stats.map((s, i) => (
             <div key={i} className="flex justify-between items-center py-2 px-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
               <span className="text-[13px] font-bold text-gray-500 uppercase truncate max-w-[200px]">{s.n}</span>
-              <span className="text-[13px] font-black text-[#191919] dark:text-white">{formatCurrency(s.t)}</span>
+              <span className="text-[13px] font-black text-strong">{formatCurrency(s.t)}</span>
             </div>
           ))}
         </div>

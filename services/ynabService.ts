@@ -40,6 +40,11 @@ export class YNABService {
     return response.json();
   }
 
+  private parseLocalDate(dateStr: string): Date {
+    const [year, month, day] = dateStr.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  }
+
   async getBudgets(): Promise<YNABBudgetSummary[]> {
     const response = await fetch(`${this.baseUrl}/budgets`, {
       headers: this.getHeaders(),
@@ -80,10 +85,11 @@ export class YNABService {
     let transactions: YNABTransaction[] = data.data.transactions;
 
     // Client-side filtering
+    const start = this.parseLocalDate(startDate);
+    const end = this.parseLocalDate(endDate);
+
     return transactions.filter(t => {
-      const tDate = new Date(t.date);
-      const start = new Date(startDate);
-      const end = new Date(endDate);
+      const tDate = this.parseLocalDate(t.date);
 
       // Removed 'isSpending = t.amount < 0' to allow inflows (refunds/income)
       // Strictly exclude transfers between accounts

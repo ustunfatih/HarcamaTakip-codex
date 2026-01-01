@@ -49,17 +49,21 @@ export const MonthComparisonChart: React.FC<MonthComparisonChartProps> = ({ data
     return data;
   }, [data, chartType, currentLabel]);
 
+  const brand = 'var(--brand-1)';
+  const muted = 'var(--text-muted)';
+  const surface = 'var(--surface-1)';
+
   const renderTodayMarker = (props: any) => {
     const { cx, cy, payload } = props;
     const today = new Date().getDate();
     if (chartType === 'daily' && currentLabel === 'Bu Ay' && payload.index === today) {
       return (
         <g key="today-marker">
-          <circle cx={cx} cy={cy} r={8} fill="#0f766e" fillOpacity="0.3">
+          <circle cx={cx} cy={cy} r={8} fill={brand} fillOpacity="0.3">
             <animate attributeName="r" from="4" to="12" dur="2s" repeatCount="indefinite" />
             <animate attributeName="opacity" from="0.6" to="0" dur="2s" repeatCount="indefinite" />
           </circle>
-          <circle cx={cx} cy={cy} r={4} fill="#ffffff" stroke="#0f766e" strokeWidth={2} />
+          <circle cx={cx} cy={cy} r={4} fill={surface} stroke={brand} strokeWidth={2} />
         </g>
       );
     }
@@ -85,46 +89,46 @@ export const MonthComparisonChart: React.FC<MonthComparisonChartProps> = ({ data
           <AreaChart data={chartData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="colorCurrent" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#0f766e" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#0f766e" stopOpacity={0.0} />
+                <stop offset="5%" stopColor={brand} stopOpacity={0.4} />
+                <stop offset="95%" stopColor={brand} stopOpacity={0.0} />
               </linearGradient>
             </defs>
             <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="currentColor" strokeOpacity={0.1} />
             <XAxis
               dataKey="label" axisLine={false} tickLine={false}
-              tick={{ fontSize: 10, fill: '#888' }}
+              tick={{ fontSize: 10, fill: muted }}
               interval={chartType === 'daily' ? 4 : 0}
             />
             <YAxis
               axisLine={false} tickLine={false}
-              tick={{ fontSize: 10, fill: '#888' }}
+              tick={{ fontSize: 10, fill: muted }}
               tickFormatter={(val) => `₺${val / 1000}k`}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: 'rgba(28, 28, 30, 0.9)',
+                backgroundColor: 'rgba(15, 23, 42, 0.85)',
                 backdropFilter: 'blur(12px)',
                 borderRadius: '12px',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#fff',
+                border: '1px solid rgba(255,255,255,0.08)',
+                color: 'var(--text-strong)',
                 boxShadow: '0 8px 16px rgba(0,0,0,0.25)',
                 padding: '8px 12px'
               }}
-              itemStyle={{ color: '#fff', fontSize: '12px', padding: 0 }}
+              itemStyle={{ color: 'var(--text-strong)', fontSize: '12px', padding: 0 }}
               formatter={(value: number) => value !== null ? formatCurrency(value) : ''}
-              labelStyle={{ fontWeight: 600, color: '#AEAEB2', fontSize: '11px', marginBottom: '4px' }}
-              cursor={{ stroke: '#fff', strokeWidth: 1, strokeDasharray: '4 4', opacity: 0.3 }}
+              labelStyle={{ fontWeight: 600, color: muted, fontSize: '11px', marginBottom: '4px' }}
+              cursor={{ stroke: muted, strokeWidth: 1, strokeDasharray: '4 4', opacity: 0.3 }}
             />
 
             <Area
               type="monotone" dataKey="previous" name={previousLabel}
-              stroke="#94a3b8" strokeWidth={2} strokeDasharray="4 4"
+              stroke={muted} strokeWidth={2} strokeDasharray="4 4"
               fill="none" activeDot={false} animationDuration={1500}
             />
             <Area
               type="monotone" dataKey="current" name={currentLabel}
-              stroke="#0f766e" strokeWidth={3} fillOpacity={1}
-              fill="url(#colorCurrent)" activeDot={{ r: 6, strokeWidth: 0, fill: '#fff' }}
+              stroke={brand} strokeWidth={3} fillOpacity={1}
+              fill="url(#colorCurrent)" activeDot={{ r: 6, strokeWidth: 0, fill: surface }}
               dot={renderTodayMarker} animationDuration={1500} connectNulls={false}
             />
           </AreaChart>

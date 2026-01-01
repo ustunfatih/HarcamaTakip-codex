@@ -47,10 +47,10 @@ export const FuturePaymentsChart: React.FC<FuturePaymentsChartProps> = ({ monthl
     const year = parts[1] || '';
     return (
       <g transform={`translate(${x},${y})`}>
-        <text x={0} y={0} dy={12} textAnchor="middle" fontSize={8} fontWeight={900} fill="#9CA3AF">
+        <text x={0} y={0} dy={12} textAnchor="middle" fontSize={8} fontWeight={900} fill="var(--text-muted)">
           {month}
         </text>
-        <text x={0} y={0} dy={22} textAnchor="middle" fontSize={7} fontWeight={700} fill="#D1D5DB">
+        <text x={0} y={0} dy={22} textAnchor="middle" fontSize={7} fontWeight={700} fill="var(--text-muted)">
           {year}
         </text>
       </g>
@@ -104,7 +104,7 @@ export const MonthDetail: React.FC<{ month: FuturePaymentMonth; categoryColorMap
               <div className="w-8 h-8 rounded-full flex items-center justify-center text-white" style={{ backgroundColor: COLORS[i % COLORS.length] }}>
                 <span className="text-[10px] font-black">{c.categoryName.charAt(0)}</span>
               </div>
-              <div className="text-[13px] font-black text-[#191919] dark:text-white uppercase truncate max-w-[150px] tracking-tight">{c.categoryName}</div>
+              <div className="text-[13px] font-black text-strong uppercase truncate max-w-[150px] tracking-tight">{c.categoryName}</div>
             </div>
             <div className="text-[14px] font-black">{formatCurrency(c.amount)}</div>
           </div>
@@ -112,7 +112,7 @@ export const MonthDetail: React.FC<{ month: FuturePaymentMonth; categoryColorMap
       </div>
 
       <div className="p-4 bg-gray-50 dark:bg-zinc-800/50">
-        <button onClick={onClose} className="w-full py-4 bg-[#191919] dark:bg-white text-white dark:text-[#191919] rounded-2xl font-black text-xs uppercase tracking-widest active:scale-[0.98] transition-all">PENCEREYİ KAPAT</button>
+        <button onClick={onClose} className="w-full py-4 bg-brand text-white rounded-2xl font-black text-xs uppercase tracking-widest active:scale-[0.98] transition-all">PENCEREYİ KAPAT</button>
       </div>
     </div>
   );
