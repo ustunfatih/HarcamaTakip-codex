@@ -43,10 +43,10 @@ export const RadialBudgetGauge: React.FC<RadialBudgetGaugeProps> = ({
   const isOverBudget = spent > budget;
 
   return (
-    <div className="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-xl border border-black/5 dark:border-white/10 rounded-2xl p-5">
+    <div className="bg-white/80 dark:bg-surface-1/80 backdrop-blur-xl border border-black/5 dark:border-white/10 rounded-2xl p-5">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <span className="text-[12px] font-semibold text-[#6E6E73] dark:text-[#8E8E93] uppercase tracking-wider">
+        <span className="text-[12px] font-semibold text-muted uppercase tracking-wider">
           {label}
         </span>
         <span
@@ -72,7 +72,7 @@ export const RadialBudgetGauge: React.FC<RadialBudgetGaugeProps> = ({
               fill="none"
               stroke="currentColor"
               strokeWidth={strokeWidth}
-              className="text-[#F5F5F7] dark:text-[#2C2C2E]"
+              className="text-muted"
             />
             {/* Progress Circle */}
             <circle
@@ -94,10 +94,10 @@ export const RadialBudgetGauge: React.FC<RadialBudgetGaugeProps> = ({
 
           {/* Center Content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-[28px] font-bold text-[#1D1D1F] dark:text-white">
+            <span className="text-[28px] font-bold text-strong">
               {formatCurrency(spent)}
             </span>
-            <span className="text-[13px] text-[#6E6E73] dark:text-[#8E8E93]">
+            <span className="text-[13px] text-muted">
               / {formatCurrency(budget)}
             </span>
           </div>
@@ -107,7 +107,7 @@ export const RadialBudgetGauge: React.FC<RadialBudgetGaugeProps> = ({
       {/* Footer Stats */}
       <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-black/5 dark:border-white/10">
         <div className="text-center">
-          <div className="text-[11px] font-semibold text-[#6E6E73] dark:text-[#8E8E93] uppercase mb-1">
+          <div className="text-[11px] font-semibold text-muted uppercase mb-1">
             {isOverBudget ? 'Aşım' : 'Kalan'}
           </div>
           <div
@@ -118,10 +118,10 @@ export const RadialBudgetGauge: React.FC<RadialBudgetGaugeProps> = ({
           </div>
         </div>
         <div className="text-center">
-          <div className="text-[11px] font-semibold text-[#6E6E73] dark:text-[#8E8E93] uppercase mb-1">
+          <div className="text-[11px] font-semibold text-muted uppercase mb-1">
             Günlük Limit
           </div>
-          <div className="text-[17px] font-bold text-[#1D1D1F] dark:text-white">
+          <div className="text-[17px] font-bold text-strong">
             {formatCurrency(budget / 30)}
           </div>
         </div>

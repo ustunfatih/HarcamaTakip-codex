@@ -89,7 +89,7 @@ export const GelecekTab: React.FC<GelecekTabProps> = ({ budgetId, selectedFlag, 
         <span className="text-gray-400 text-[11px] font-black mb-1 uppercase tracking-[0.2em] opacity-60">
           ÖNÜMÜZDEKİ {monthsAhead} AY
         </span>
-        <div className="text-5xl font-black tracking-tighter text-[#191919] dark:text-white mb-2">
+        <div className="text-5xl font-black tracking-tighter text-strong mb-2">
           <AnimatedCounter value={stats.total} format="currency" smallDecimals={true} />
         </div>
         <div className="flex items-center justify-center gap-2">
@@ -163,7 +163,7 @@ export const GelecekTab: React.FC<GelecekTabProps> = ({ budgetId, selectedFlag, 
                   {t.isRecurring ? <RefreshCw size={18} /> : <Calendar size={18} />}
                 </div>
                 <div>
-                  <div className="text-[14px] font-black text-[#191919] dark:text-white uppercase truncate max-w-[120px]">
+                  <div className="text-[14px] font-black text-strong uppercase truncate max-w-[120px]">
                     {t.payee_name || 'BİLINMEYEN'}
                   </div>
                   <div className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">
@@ -172,7 +172,7 @@ export const GelecekTab: React.FC<GelecekTabProps> = ({ budgetId, selectedFlag, 
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-[14px] font-black text-[#191919] dark:text-white">
+                <div className="text-[14px] font-black text-strong">
                   -{formatCurrency(Math.abs(t.amount) / 1000)}
                 </div>
                 {t.isRecurring && (

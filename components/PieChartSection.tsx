@@ -1,18 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { CategorySpending } from '../types';
-import { formatCurrency } from '../utils';
+import { formatCurrency, formatPercent } from '../utils';
 
 // Premium Fintech Palette (Vibrant and Professional)
 const COLORS = [
-  '#0f766e', // Teal
-  '#0ea5e9', // Sky
-  '#f97316', // Orange
-  '#14b8a6', // Mint
-  '#f59e0b', // Amber
-  '#1f2937', // Charcoal
-  '#38bdf8', // Light blue
-  '#94a3b8'  // Slate
+  'var(--brand-1)',
+  'var(--brand-2)',
+  'var(--accent-warm)',
+  'var(--hig-teal)',
+  'var(--hig-yellow)',
+  'var(--text-muted)'
 ];
 
 interface PieChartSectionProps {
@@ -29,7 +27,7 @@ export const PieChartSection: React.FC<PieChartSectionProps> = ({ categories, on
   const chartData = total > 0 ? sorted.slice(0, 5).map(c => ({
     name: c.categoryName,
     value: c.totalAmount,
-    percentage: ((c.totalAmount / total) * 100).toFixed(1),
+    percentage: formatPercent((c.totalAmount / total) * 100, 1),
     categoryId: c.categoryId
   })) : [];
 
@@ -37,9 +35,9 @@ export const PieChartSection: React.FC<PieChartSectionProps> = ({ categories, on
   const otherTotal = otherCategories.reduce((s, c) => s + c.totalAmount, 0);
   if (otherTotal > 0 && total > 0) {
     chartData.push({
-      name: 'DİĞER',
+      name: 'UNDER',
       value: otherTotal,
-      percentage: ((otherTotal / total) * 100).toFixed(1),
+      percentage: formatPercent((otherTotal / total) * 100, 1),
       categoryId: 'other'
     });
   }
@@ -62,7 +60,7 @@ export const PieChartSection: React.FC<PieChartSectionProps> = ({ categories, on
     <div className="chart-panel p-6">
       <div className="flex flex-col items-center">
         {/* Donut Chart Container */}
-        <div className="relative w-full h-64 -mt-4">
+        <div className="relative w-full h-60">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -93,10 +91,10 @@ export const PieChartSection: React.FC<PieChartSectionProps> = ({ categories, on
 
           {/* Center Text (Revolut Style) */}
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <span className="text-3xl font-black tracking-tighter text-[#191919] dark:text-white">
+            <span className="text-3xl font-black tracking-tighter text-strong">
               {formatCurrency(total).split(',')[0]}
             </span>
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-0.5">TOPLAM HARCAMA</span>
+            <span className="text-[10px] font-black text-muted uppercase tracking-widest mt-0.5">TOPLAM HARCAMA</span>
           </div>
         </div>
 
@@ -113,11 +111,11 @@ export const PieChartSection: React.FC<PieChartSectionProps> = ({ categories, on
                   className="w-3 h-3 rounded-full mr-4 shrink-0 transition-transform group-hover:scale-125"
                   style={{ backgroundColor: COLORS[i % COLORS.length] }}
                 ></div>
-                <span className="text-[14px] font-black text-[#191919] dark:text-white uppercase truncate tracking-tight">{e.name}</span>
+                <span className="text-[14px] font-black text-strong uppercase truncate tracking-tight">{e.name}</span>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-[14px] font-black text-gray-400 tabular-nums">%{e.percentage}</span>
-                <span className="text-[14px] font-black text-[#191919] dark:text-white tabular-nums hidden sm:inline-block">
+                <span className="text-[14px] font-black text-muted tabular-nums">{e.percentage}</span>
+                <span className="text-[14px] font-black text-strong tabular-nums hidden sm:inline-block">
                   {formatCurrency(e.value)}
                 </span>
               </div>
@@ -137,8 +135,8 @@ export const PieChartSection: React.FC<PieChartSectionProps> = ({ categories, on
               <div className="mt-3 space-y-2">
                 {otherBreakdown.map((o) => (
                   <div key={o.name} className="flex justify-between text-sm">
-                    <span className="text-[#191919] dark:text-white truncate">{o.name}</span>
-                    <span className="text-gray-400">%{o.pct.toFixed(1)} • {formatCurrency(o.value)}</span>
+                    <span className="text-strong truncate">{o.name}</span>
+                    <span className="text-muted">{formatPercent(o.pct, 1)} • {formatCurrency(o.value)}</span>
                   </div>
                 ))}
               </div>

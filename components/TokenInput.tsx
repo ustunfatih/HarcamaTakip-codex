@@ -23,10 +23,10 @@ export const TokenInput: React.FC<TokenInputProps> = ({ token, setToken, onConti
     return (
         <div className="min-h-screen flex flex-col p-6 max-w-md mx-auto animate-spring-in">
             <div className="flex-1 flex flex-col justify-center pt-20">
-                <div className="w-16 h-16 bg-[#0f766e] rounded-2xl flex items-center justify-center mb-8 shadow-xl shadow-emerald-500/20">
+                <div className="w-16 h-16 bg-brand rounded-2xl flex items-center justify-center mb-8 shadow-xl shadow-emerald-500/20">
                     <Sparkles className="w-8 h-8 text-white" />
                 </div>
-                <h1 className="text-4xl display-title mb-4 text-[#191919] dark:text-white">Harika bir analize hazır mısınız?</h1>
+                <h1 className="text-4xl display-title mb-4 text-strong">Harika bir analize hazır mısınız?</h1>
                 <p className="text-gray-500 font-medium leading-relaxed mb-12">YNAB Personal Access Token'ınızı kullanarak verilerinizi güvenle senkronize edelim.</p>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -35,7 +35,7 @@ export const TokenInput: React.FC<TokenInputProps> = ({ token, setToken, onConti
                             type="password"
                             value={token}
                             onChange={handleChange}
-                            className="w-full bg-transparent border-none px-4 py-4 text-lg font-bold focus:outline-none placeholder:text-gray-300 text-[#191919] dark:text-white"
+                            className="w-full bg-transparent border-none px-4 py-4 text-lg font-bold focus:outline-none placeholder:text-gray-300 text-strong"
                             placeholder="Erişim Token'ı"
                             required
                         />

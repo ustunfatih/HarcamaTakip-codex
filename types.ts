@@ -82,6 +82,31 @@ export interface ComparisonConfig {
   previousLabel: string;
 }
 
+export interface CategoryTrend {
+  previousAmount: number;
+  changePercentage: number;
+}
+
+export interface RecurringItem {
+  payee: string;
+  averageAmount: number;
+  count: number;
+  lastDate: string;
+}
+
+export interface PotentialDuplicate {
+  payee: string;
+  amount: number;
+  date: string;
+}
+
+export interface ReportPerformanceMetrics {
+  generatedMs: number;
+  totalTransactions: number;
+  comparisonTransactions: number;
+  categoryCount: number;
+}
+
 export interface ReportData {
   totalSpent: number;
   startDate: string;
@@ -100,21 +125,29 @@ export interface ReportData {
     net: number;
     savingsRate: number;
   };
-  categoryTrends?: Record<string, {
-    previousAmount: number;
-    changePercentage: number;
-  }>;
-  recurringItems?: Array<{
-    payee: string;
-    averageAmount: number;
-    count: number;
-    lastDate: string;
-  }>;
-  potentialDuplicates?: Array<{
-    payee: string;
-    amount: number;
-    date: string;
-  }>;
+  categoryTrends?: Record<string, CategoryTrend>;
+  performance?: ReportPerformanceMetrics;
+  insights?: {
+    topCategory: CategorySpending | null;
+    topCategoryShare: number;
+    topMerchants: Array<{ name: string; amount: number }>;
+    topMerchantShare: number;
+    weekendShare: number;
+    pulse: number;
+    moversUp: Array<{ name: string; change: number }>;
+    moversDown: Array<{ name: string; change: number }>;
+    spendTxCount: number;
+    yearlyDelta: number;
+    yearlyDeltaPct: number;
+    dailyMean: number;
+    dailyStd: number;
+    anomalies: Array<{ date: string; amount: number; topCategory: string }>;
+    categoryVolatility: Array<{ name: string; volatility: number; mean: number }>;
+    recurringInsights: Array<{ payee: string; monthly: number; annual: number }>;
+    topDays: Array<{ day: string; value: number }>;
+  };
+  recurringItems?: RecurringItem[];
+  potentialDuplicates?: PotentialDuplicate[];
 }
 
 // Scheduled Transactions for Future Payments (Gelecek Tab)
