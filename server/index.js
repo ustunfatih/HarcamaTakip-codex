@@ -8,6 +8,7 @@ const HOST = process.env.SERVER_HOST || '127.0.0.1';
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
 const SESSION_COOKIE = 'ht_session';
 const TOKEN_ENC_KEY = process.env.TOKEN_ENC_KEY || '';
+const ENV_TOKEN = (process.env.YNAB_ACCESS_TOKEN || '').trim();
 
 if (!TOKEN_ENC_KEY) {
   console.warn('Missing TOKEN_ENC_KEY. Set it in your server environment for encryption.');
@@ -78,8 +79,8 @@ const decryptToken = (payload) => {
 
 app.get('/auth/status', (req, res) => {
   const sessionId = getSessionId(req);
-  const hasToken = sessionId ? tokenStore.has(sessionId) : false;
-  res.json({ hasToken });
+  const hasSessionToken = sessionId ? tokenStore.has(sessionId) : false;
+  res.json({ hasToken: hasSessionToken || Boolean(ENV_TOKEN) });
 });
 
 app.post('/auth/ynab', (req, res) => {
@@ -102,9 +103,8 @@ app.post('/auth/logout', (req, res) => {
 app.get('/ynab/*', async (req, res) => {
   const sessionId = getSessionId(req);
   const encrypted = sessionId ? tokenStore.get(sessionId) : null;
-  if (!encrypted) return res.status(401).json({ error: 'Not authenticated.' });
-  const token = decryptToken(encrypted);
-  if (!token) return res.status(401).json({ error: 'Invalid token.' });
+  const token = encrypted ? decryptToken(encrypted) : ENV_TOKEN;
+  if (!token) return res.status(401).json({ error: 'Not authenticated.' });
 
   const upstreamPath = req.originalUrl.replace('/ynab', '');
   const url = `https://api.ynab.com/v1${upstreamPath}`;
