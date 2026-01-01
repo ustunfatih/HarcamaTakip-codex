@@ -109,12 +109,12 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
                     {(title || subtitle) && (
                         <div className="px-4 py-3 border-b border-black/5 dark:border-white/10">
                             {title && (
-                                <div className="text-[15px] font-semibold text-[#1D1D1F] dark:text-white truncate">
+                                <div className="text-[15px] font-semibold text-strong truncate">
                                     {title}
                                 </div>
                             )}
                             {subtitle && (
-                                <div className="text-[13px] text-[#6E6E73] dark:text-[#8E8E93] truncate mt-0.5">
+                                <div className="text-[13px] text-muted truncate mt-0.5">
                                     {subtitle}
                                 </div>
                             )}
@@ -132,13 +132,13 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
                                 }}
                                 className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors
                   ${item.destructive
-                                        ? 'text-[#FF3B30] hover:bg-[#FF3B30]/10 active:bg-[#FF3B30]/20'
-                                        : 'text-[#1D1D1F] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20'
+                                        ? 'text-danger hover:bg-danger-soft active:bg-danger-soft'
+                                        : 'text-strong hover:bg-black/5 dark:hover:bg-white/10 active:bg-black/10 dark:active:bg-white/20'
                                     }
                   ${index !== items.length - 1 ? 'border-b border-black/5 dark:border-white/5' : ''}
                 `}
                             >
-                                <span className={`w-5 h-5 flex-shrink-0 ${item.destructive ? 'text-[#FF3B30]' : 'text-[#007AFF]'}`}>
+                                <span className={`w-5 h-5 flex-shrink-0 ${item.destructive ? 'text-danger' : 'text-info'}`}>
                                     {item.icon}
                                 </span>
                                 <span className="text-[15px] font-medium">{item.label}</span>
@@ -151,7 +151,7 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({
                 <div className="mt-2">
                     <button
                         onClick={onClose}
-                        className="w-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl py-3.5 text-[17px] font-semibold text-[#007AFF] hover:bg-white dark:hover:bg-zinc-800 transition-colors"
+                        className="w-full bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl py-3.5 text-[17px] font-semibold text-info hover:bg-white dark:hover:bg-zinc-800 transition-colors"
                     >
                         Vazgeç
                     </button>

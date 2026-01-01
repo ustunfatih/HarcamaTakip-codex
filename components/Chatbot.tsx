@@ -137,7 +137,7 @@ export const Chatbot: React.FC<ChatbotProps> = ({ reportData }) => {
 
   // --- EXPANDED STATE (FULL SCREEN) ---
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-[#f3f4f6] dark:bg-black transition-colors duration-300">
+    <div className="fixed inset-0 z-50 flex flex-col bg-surface-3 transition-colors duration-300">
 
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-gray-200 dark:border-white/10 pt-[calc(1rem+env(safe-area-inset-top))]">

@@ -111,7 +111,7 @@ const AIInsightHero: React.FC<{ reportData: ReportData; personName?: string }> =
             <Zap size={10} className="inline mr-1" />AI ANALİZ
           </div>
         </div>
-        <h3 className="text-xl font-black text-[#191919] dark:text-white mb-2">{insight.title}</h3>
+        <h3 className="text-xl font-black text-strong mb-2">{insight.title}</h3>
         <p className="text-[13px] text-gray-500 dark:text-gray-400 font-medium leading-relaxed">{insight.message}</p>
       </div>
     </div>
@@ -247,7 +247,7 @@ const MonthlyHeatmap: React.FC<{ reportData: ReportData }> = ({ reportData }) =>
           <ChevronLeft size={16} className="text-gray-500" />
         </button>
         <div className="text-center">
-          <div className="text-[14px] font-black text-[#191919] dark:text-white uppercase tracking-tight">{monthLabel}</div>
+          <div className="text-[14px] font-black text-strong uppercase tracking-tight">{monthLabel}</div>
           <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">HARCAMA YOĞUNLUĞU</div>
         </div>
         <button
@@ -280,7 +280,7 @@ const MonthlyHeatmap: React.FC<{ reportData: ReportData }> = ({ reportData }) =>
           >
             <span className="text-[9px] font-bold text-gray-500 dark:text-gray-400 opacity-60 group-hover:opacity-100">{d.day}</span>
             {d.amount > 0 && (
-              <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#191919] dark:bg-white text-white dark:text-[#191919] px-2 py-1 rounded-lg text-[10px] font-black opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+              <div className="absolute -top-8 left-1/2 -translate-x-1/2 tooltip-surface px-2 py-1 rounded-lg text-[10px] font-black opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
                 {formatCurrency(d.amount)}
               </div>
             )}
@@ -341,7 +341,7 @@ const TopMerchantsSection: React.FC<{ categories: CategorySpending[] }> = ({ cat
         <div key={m.name} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
           <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-[11px] font-black">{i + 1}</div>
           <div className="flex-1 min-w-0">
-            <div className="flex justify-between items-start"><span className="text-[13px] font-bold truncate text-[#191919] dark:text-white uppercase tracking-tight">{m.name}</span><span className="text-[13px] font-black">{formatCurrency(m.total)}</span></div>
+            <div className="flex justify-between items-start"><span className="text-[13px] font-bold truncate text-strong uppercase tracking-tight">{m.name}</span><span className="text-[13px] font-black">{formatCurrency(m.total)}</span></div>
             <div className="text-[10px] text-gray-400 font-bold">{m.count} İŞLEM</div>
           </div>
         </div>

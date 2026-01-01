@@ -37,6 +37,11 @@ export const formatCurrency = (amount: number, customSymbol?: string): string =>
   return `${symbol}${formatted}`;
 };
 
+export const formatPercent = (value: number, decimals: number = 0): string => {
+  if (!Number.isFinite(value)) return '0%';
+  return `${value.toFixed(decimals)}%`;
+};
+
 export const formatDateRange = (start: string, end: string): string => {
   // Parsing YYYY-MM-DD manually to avoid timezone issues
   const parseDate = (dStr: string) => {
@@ -178,4 +183,69 @@ export const decompressData = (compressed: string): ReportData | null => {
     console.error("Decompression failed", e);
     return null;
   }
+};
+
+export const generateSampleReportData = (
+  days: number = 30,
+  categoryCount: number = 6,
+  transactionCount: number = 240
+): ReportData => {
+  const today = new Date();
+  const endDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - days);
+  const startDateStr = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
+
+  const categories: CategorySpending[] = Array.from({ length: categoryCount }).map((_, index) => ({
+    categoryId: `cat-${index + 1}`,
+    categoryName: `Kategori ${index + 1}`,
+    totalAmount: 0,
+    transactions: [],
+    color: ''
+  }));
+
+  const randomCategory = () => categories[Math.floor(Math.random() * categories.length)];
+
+  for (let i = 0; i < transactionCount; i += 1) {
+    const category = randomCategory();
+    const dayOffset = Math.floor(Math.random() * days);
+    const txDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - dayOffset);
+    const txDateStr = `${txDate.getFullYear()}-${String(txDate.getMonth() + 1).padStart(2, '0')}-${String(txDate.getDate()).padStart(2, '0')}`;
+    const amount = -(Math.floor(Math.random() * 400) + 30) * 1000;
+
+    const transaction: YNABTransaction = {
+      id: `sample-${i}`,
+      date: txDateStr,
+      amount,
+      memo: null,
+      cleared: 'cleared',
+      approved: true,
+      flag_color: null,
+      flag_name: null,
+      account_id: 'sample',
+      payee_id: null,
+      category_id: category.categoryId,
+      transfer_account_id: null,
+      import_id: null,
+      deleted: false,
+      account_name: 'Sample',
+      payee_name: `Payee ${i % 12}`,
+      category_name: category.categoryName
+    };
+    category.transactions.push(transaction);
+    category.totalAmount += Math.abs(amount / 1000);
+  }
+
+  const totalSpent = categories.reduce((sum, c) => sum + c.totalAmount, 0);
+  return {
+    totalSpent,
+    startDate: startDateStr,
+    endDate,
+    categories,
+    cashFlowStats: {
+      income: totalSpent * 1.4,
+      expense: totalSpent,
+      net: totalSpent * 0.4,
+      savingsRate: 28
+    }
+  };
 };

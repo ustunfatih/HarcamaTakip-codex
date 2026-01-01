@@ -46,7 +46,7 @@ export const ReportConfig: React.FC<ReportConfigProps> = ({
             <div className="flex-1 pt-12 space-y-12">
                 <header>
                     <HapticButton className="w-10 h-10 bg-black/5 dark:bg-white/10 rounded-full flex items-center justify-center mb-10"><ArrowLeft size={18} /></HapticButton>
-                    <h1 className="text-4xl display-title tracking-tighter mb-2 text-[#191919] dark:text-white uppercase">AYARLAR</h1>
+                    <h1 className="text-4xl display-title tracking-tighter mb-2 text-strong uppercase">AYARLAR</h1>
                     <p className="text-gray-400 font-bold text-sm tracking-tight leading-relaxed">Analiz için bütçe, hesap ve kullanıcı seçimi yapın.</p>
                 </header>
 

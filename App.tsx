@@ -7,9 +7,13 @@ import {
   CategorySpending,
   YNABTransaction,
   ComparisonDataPoint,
-  ComparisonConfig
+  ComparisonConfig,
+  CategoryTrend,
+  RecurringItem,
+  PotentialDuplicate,
+  ReportPerformanceMetrics
 } from './types';
-import { decompressData, compressData, downloadHtmlFile, setCurrency, CURRENCY_SYMBOLS } from './utils';
+import { decompressData, compressData, downloadHtmlFile, setCurrency, CURRENCY_SYMBOLS, generateSampleReportData } from './utils';
 import { generateStandaloneHtml } from './services/htmlGenerator';
 import { TokenInput } from './components/TokenInput';
 import { ReportConfig } from './components/ReportConfig';
@@ -50,7 +54,7 @@ const App: React.FC = () => {
   const [selectedAccount, setSelectedAccount] = useState<string>('all');
   const [selectedFlag, setSelectedFlag] = useState<string>('');
   const [reportData, setReportData] = useState<ReportData | null>(null);
-  const [activeTab, setActiveTab] = useState<'ana' | 'analiz' | 'ai' | 'gelecek'>('ana');
+  const [activeTab, setActiveTab] = useState<'overview' | 'insights' | 'ai' | 'gelecek'>('overview');
   const [showCustomDateInput, setShowCustomDateInput] = useState(false);
   const [selectedDatePreset, setSelectedDatePreset] = useState<string>('thisMonth');
 
@@ -61,6 +65,13 @@ const App: React.FC = () => {
     return `${year}-${month}-${day}`;
   };
 
+  const parseLocalDate = (dateStr: string): Date => {
+    const [year, month, day] = dateStr.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const nowMs = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
+
   const today = new Date();
   const [startDate, setStartDate] = useState<string>(toLocalDateString(new Date(today.getFullYear(), today.getMonth(), 1)));
   const [endDate, setEndDate] = useState<string>(toLocalDateString(new Date(today.getFullYear(), today.getMonth() + 1, 0)));
@@ -70,6 +81,7 @@ const App: React.FC = () => {
     overrideBudget?: string, overrideAccount?: string, overridePreset?: string
   ) => {
     setIsLoading(true); setError(null);
+    const reportStart = nowMs();
     const useStart = overrideStart || startDate;
     const useEnd = overrideEnd || endDate;
     const useFlag = overrideFlag !== undefined ? overrideFlag : selectedFlag;
@@ -88,7 +100,7 @@ const App: React.FC = () => {
 
       if (usePreset === 'thisMonth' || usePreset === 'prevMonth') {
         const isPrev = usePreset === 'prevMonth';
-        const currStart = new Date(useStart);
+        const currStart = parseLocalDate(useStart);
         const prevStart = new Date(currStart.getFullYear(), currStart.getMonth() - 1, 1);
         const prevEnd = new Date(currStart.getFullYear(), currStart.getMonth(), 0);
         comparisonConfig = {
@@ -97,29 +109,50 @@ const App: React.FC = () => {
         };
         const prevTx = await service.getTransactions(useBudget, useAccount, toLocalDateString(prevStart), toLocalDateString(prevEnd), useFlag || null);
         prevTransactionsTrend = prevTx;
+        const daysInMonth = new Date(currStart.getFullYear(), currStart.getMonth() + 1, 0).getDate();
         const daily: Record<number, number> = {}; const prevD: Record<number, number> = {};
-        transactions.forEach(t => { if (t.category_name !== 'Split') daily[new Date(t.date).getDate()] = (daily[new Date(t.date).getDate()] || 0) + (-t.amount / 1000); });
-        prevTx.forEach(t => { if (t.category_name !== 'Split') prevD[new Date(t.date).getDate()] = (prevD[new Date(t.date).getDate()] || 0) + (-t.amount / 1000); });
+        transactions.forEach(t => {
+          if (t.category_name !== 'Split') {
+            const date = parseLocalDate(t.date);
+            daily[date.getDate()] = (daily[date.getDate()] || 0) + (-t.amount / 1000);
+          }
+        });
+        prevTx.forEach(t => {
+          if (t.category_name !== 'Split') {
+            const date = parseLocalDate(t.date);
+            prevD[date.getDate()] = (prevD[date.getDate()] || 0) + (-t.amount / 1000);
+          }
+        });
         let rC = 0; let rP = 0;
-        for (let i = 1; i <= 31; i++) { rC += (daily[i] || 0); rP += (prevD[i] || 0); comparisonData.push({ index: i, label: `${i}`, current: rC, previous: rP }); }
+        for (let i = 1; i <= daysInMonth; i++) { rC += (daily[i] || 0); rP += (prevD[i] || 0); comparisonData.push({ index: i, label: `${i}`, current: rC, previous: rP }); }
       } else if (usePreset === 'thisYear') {
-        const curr = new Date(useStart);
+        const curr = parseLocalDate(useStart);
         const pS = new Date(curr.getFullYear() - 1, 0, 1); const pE = new Date(curr.getFullYear() - 1, 11, 31);
         comparisonConfig = { type: 'monthly', title: 'Yıllık Kümülatif', subtitle: 'Bu Yıl vs Geçen Yıl', currentLabel: 'Bu Yıl', previousLabel: 'Geçen Yıl' };
         const prevTx = await service.getTransactions(useBudget, useAccount, toLocalDateString(pS), toLocalDateString(pE), useFlag || null);
         prevTransactionsTrend = prevTx;
         const monthly: Record<number, number> = {}; const prevM: Record<number, number> = {};
-        transactions.forEach(t => { if (t.category_name !== 'Split') monthly[new Date(t.date).getMonth()] = (monthly[new Date(t.date).getMonth()] || 0) + (-t.amount / 1000); });
-        prevTx.forEach(t => { if (t.category_name !== 'Split') prevM[new Date(t.date).getMonth()] = (prevM[new Date(t.date).getMonth()] || 0) + (-t.amount / 1000); });
+        transactions.forEach(t => {
+          if (t.category_name !== 'Split') {
+            const date = parseLocalDate(t.date);
+            monthly[date.getMonth()] = (monthly[date.getMonth()] || 0) + (-t.amount / 1000);
+          }
+        });
+        prevTx.forEach(t => {
+          if (t.category_name !== 'Split') {
+            const date = parseLocalDate(t.date);
+            prevM[date.getMonth()] = (prevM[date.getMonth()] || 0) + (-t.amount / 1000);
+          }
+        });
         let rC = 0; let rP = 0;
         for (let i = 0; i < 12; i++) { rC += (monthly[i] || 0); rP += (prevM[i] || 0); comparisonData.push({ index: i, label: MONTH_NAMES[i], current: rC, previous: rP }); }
       }
 
       let totalIncome = 0; let totalExpense = 0; let historicalMonthlyAverage = 0;
-      let recurringItems: any[] = []; let potentialDuplicates: any[] = [];
+      let recurringItems: RecurringItem[] = []; let potentialDuplicates: PotentialDuplicate[] = [];
       try {
-        const aS = new Date(useStart); aS.setMonth(aS.getMonth() - 3);
-        const aE = new Date(useStart); aE.setDate(aE.getDate() - 1);
+        const aS = parseLocalDate(useStart); aS.setMonth(aS.getMonth() - 3);
+        const aE = parseLocalDate(useStart); aE.setDate(aE.getDate() - 1);
         const histTx = await service.getTransactions(useBudget, useAccount, toLocalDateString(aS), toLocalDateString(aE), useFlag || null);
         let histExp = 0;
         histTx.forEach(t => { if (t.amount < 0 && !t.transfer_account_id) histExp += (-t.amount / 1000); });
@@ -153,15 +186,142 @@ const App: React.FC = () => {
 
       const prevMap: Record<string, number> = {};
       prevTransactionsTrend.forEach(t => { if (t.category_name !== 'Split') { const r = -t.amount / 1000; if (r > 0) prevMap[t.category_name || 'Kategorisiz'] = (prevMap[t.category_name || 'Kategorisiz'] || 0) + r; } });
-      const trends: Record<string, any> = {};
+      const trends: Record<string, CategoryTrend> = {};
       Object.values(categoryMap).forEach(c => { const p = prevMap[c.categoryName] || 0; trends[c.categoryName] = { previousAmount: p, changePercentage: p > 0 ? ((c.totalAmount - p) / p) * 100 : (c.totalAmount > 0 ? 100 : 0) }; });
 
+      const categories = Object.values(categoryMap).sort((a, b) => b.totalAmount - a.totalAmount);
+      const totalSpent = categories.reduce((s, c) => s + c.totalAmount, 0);
+      const topCategory = categories.length ? categories[0] : null;
+      const topCategoryShare = topCategory && totalSpent > 0 ? (topCategory.totalAmount / totalSpent) * 100 : 0;
+
+      const payeeMap: Record<string, number> = {};
+      let weekendSpend = 0;
+      let spendTxCount = 0;
+      const dailyTotals: Record<string, number> = {};
+      const dailyCategory: Record<string, Record<string, number>> = {};
+      const dayTotals = Array(7).fill(0);
+      categories.forEach((c) => {
+        c.transactions?.forEach((t) => {
+          if (t.amount >= 0 || !t.date) return;
+          spendTxCount += 1;
+          const amt = Math.abs(t.amount / 1000);
+          const name = t.payee_name || 'Bilinmeyen';
+          payeeMap[name] = (payeeMap[name] || 0) + amt;
+          const dateParts = t.date.split('-').map(Number);
+          if (dateParts.length === 3) {
+            const d = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+            if (d.getDay() === 0 || d.getDay() === 6) weekendSpend += amt;
+            const key = `${dateParts[0]}-${String(dateParts[1]).padStart(2, '0')}-${String(dateParts[2]).padStart(2, '0')}`;
+            dailyTotals[key] = (dailyTotals[key] || 0) + amt;
+            if (!dailyCategory[key]) dailyCategory[key] = {};
+            dailyCategory[key][c.categoryName] = (dailyCategory[key][c.categoryName] || 0) + amt;
+            dayTotals[d.getDay()] += amt;
+          }
+        });
+      });
+
+      const topMerchants = Object.entries(payeeMap)
+        .map(([name, amount]) => ({ name, amount }))
+        .sort((a, b) => b.amount - a.amount)
+        .slice(0, 5);
+      const topMerchantShare = totalSpent > 0
+        ? topMerchants.slice(0, 3).reduce((s, m) => s + m.amount, 0) / totalSpent * 100
+        : 0;
+      const weekendShare = totalSpent > 0 ? (weekendSpend / totalSpent) * 100 : 0;
+
+      const histAvg = historicalMonthlyAverage || 0;
+      const pulse = histAvg > 0 ? (totalSpent / histAvg) * 100 : 0;
+
+      const movers = Object.entries(trends)
+        .map(([name, t]) => ({ name, change: t.changePercentage }))
+        .sort((a, b) => b.change - a.change);
+      const moversUp = movers.slice(0, 3);
+      const moversDown = movers.slice(-3).reverse();
+
+      const lastPoint = comparisonData.length ? comparisonData[comparisonData.length - 1] : null;
+      const yearlyDelta = lastPoint ? lastPoint.current - lastPoint.previous : 0;
+      const yearlyDeltaPct = lastPoint && lastPoint.previous > 0
+        ? ((lastPoint.current - lastPoint.previous) / lastPoint.previous) * 100
+        : 0;
+
+      const dayOrder = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+      const topDays = dayTotals
+        .map((v, i) => ({ day: dayOrder[i], value: v }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 2);
+
+      const dailyValues = Object.values(dailyTotals);
+      const dailyMean = dailyValues.length ? dailyValues.reduce((a, b) => a + b, 0) / dailyValues.length : 0;
+      const dailyStd = dailyValues.length
+        ? Math.sqrt(dailyValues.reduce((s, v) => s + Math.pow(v - dailyMean, 2), 0) / dailyValues.length)
+        : 0;
+      const anomalies = Object.entries(dailyTotals)
+        .filter(([, v]) => v > dailyMean + 2 * dailyStd)
+        .map(([date, amount]) => {
+          const topCat = dailyCategory[date]
+            ? Object.entries(dailyCategory[date]).sort((a, b) => b[1] - a[1])[0]
+            : null;
+          return { date, amount, topCategory: topCat ? topCat[0] : 'Bilinmeyen' };
+        })
+        .sort((a, b) => b.amount - a.amount)
+        .slice(0, 5);
+
+      const categoryVolatility = categories.map((c) => {
+        const dayMap: Record<string, number> = {};
+        c.transactions?.forEach((t) => {
+          if (t.amount >= 0 || !t.date) return;
+          const dateParts = t.date.split('-').map(Number);
+          if (dateParts.length !== 3) return;
+          const k = `${dateParts[0]}-${String(dateParts[1]).padStart(2, '0')}-${String(dateParts[2]).padStart(2, '0')}`;
+          dayMap[k] = (dayMap[k] || 0) + Math.abs(t.amount / 1000);
+        });
+        const vals = Object.values(dayMap);
+        const mean = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+        const std = vals.length ? Math.sqrt(vals.reduce((s, v) => s + Math.pow(v - mean, 2), 0) / vals.length) : 0;
+        const volatility = mean > 0 ? std / mean : 0;
+        return { name: c.categoryName, volatility, mean };
+      }).sort((a, b) => b.volatility - a.volatility).slice(0, 6);
+
+      const recurring = recurringItems || [];
+      const recurringInsights = recurring.slice(0, 5).map((r) => ({
+        payee: r.payee,
+        monthly: r.averageAmount,
+        annual: r.averageAmount * 12
+      }));
+
+      const performanceMetrics: ReportPerformanceMetrics = {
+        generatedMs: Math.round(nowMs() - reportStart),
+        totalTransactions: transactions.length,
+        comparisonTransactions: prevTransactionsTrend.length,
+        categoryCount: categories.length
+      };
+
       setReportData({
-        totalSpent: Object.values(categoryMap).reduce((s, c) => s + c.totalAmount, 0),
-        startDate: useStart, endDate: useEnd, categories: Object.values(categoryMap).sort((a, b) => b.totalAmount - a.totalAmount),
+        totalSpent,
+        startDate: useStart, endDate: useEnd, categories,
         comparisonData: comparisonData.length > 0 ? comparisonData : undefined, comparisonConfig, comparisonType: comparisonConfig?.type || 'daily',
         totalIncome, totalExpense, historicalMonthlyAverage, categoryTrends: trends, recurringItems, potentialDuplicates,
-        cashFlowStats: { income: totalIncome, expense: totalExpense, net: totalIncome - totalExpense, savingsRate: totalIncome > 0 ? ((totalIncome - totalExpense) / totalIncome) * 100 : 0 }
+        cashFlowStats: { income: totalIncome, expense: totalExpense, net: totalIncome - totalExpense, savingsRate: totalIncome > 0 ? ((totalIncome - totalExpense) / totalIncome) * 100 : 0 },
+        performance: performanceMetrics,
+        insights: {
+          topCategory,
+          topCategoryShare,
+          topMerchants,
+          topMerchantShare,
+          weekendShare,
+          pulse,
+          moversUp,
+          moversDown,
+          spendTxCount,
+          yearlyDelta,
+          yearlyDeltaPct,
+          dailyMean,
+          dailyStd,
+          anomalies,
+          categoryVolatility,
+          recurringInsights,
+          topDays
+        }
       });
       setStep(3); setShowCustomDateInput(false);
     } catch (err: any) { setError(err.message || 'Hata oluştu.'); } finally { setIsLoading(false); }
@@ -186,7 +346,7 @@ const App: React.FC = () => {
         setAccounts(accs);
         const target = accs.find(a => a.name.toLowerCase().includes('bonus'))?.id || accs[0]?.id || 'all';
         setSelectedAccount(target);
-        generateReport(startDate, endDate, selectedFlag, tr.id, target);
+        await generateReport(startDate, endDate, selectedFlag, tr.id, target);
       } else { setError('Bütçe bulunamadı.'); setStep(1); }
     } catch (err: any) { setError(err.message || 'Bağlantı hatası.'); setStep(1); } finally { setIsLoading(false); }
   };
@@ -215,6 +375,13 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('sample') === '1') {
+      setReportData(generateSampleReportData());
+      setIsSharedView(false);
+      setStep(3);
+      return;
+    }
     const shared = new URLSearchParams(window.location.search).get('data') || window.location.hash.split('data=')[1];
     if (shared) {
       const data = decompressData(shared);

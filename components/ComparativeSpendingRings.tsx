@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { ReportData } from '../types';
-import { formatCurrency } from '../utils';
+import { formatCurrency, formatPercent } from '../utils';
 
 interface ComparativeSpendingRingsProps {
   reportData: ReportData;
@@ -64,7 +64,7 @@ const AnimatedRing: React.FC<AnimatedRingProps> = ({
         fill="none"
         stroke="currentColor"
         strokeWidth={strokeWidth}
-        className="text-[#F5F5F7] dark:text-[#2C2C2E]"
+        className="text-muted"
       />
       {/* Progress Ring */}
       <circle
@@ -129,11 +129,11 @@ export const ComparativeSpendingRings: React.FC<ComparativeSpendingRingsProps> =
     : null;
 
   return (
-    <div className="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-xl border border-black/5 dark:border-white/10 rounded-2xl p-5">
+    <div className="surface-card surface-card--muted backdrop-blur-xl rounded-2xl p-5">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <span className="text-[12px] font-semibold text-[#6E6E73] dark:text-[#8E8E93] uppercase tracking-wider">
+          <span className="text-[12px] font-semibold text-muted uppercase tracking-wider">
             Kategori Halkaları
           </span>
         </div>
@@ -141,7 +141,7 @@ export const ComparativeSpendingRings: React.FC<ComparativeSpendingRingsProps> =
         {/* View Mode Toggle - 44pt touch target */}
         <button
           onClick={() => setViewMode(viewMode === 'categories' ? 'budget' : 'categories')}
-          className="flex items-center gap-1 px-3 min-h-[44px] text-[12px] font-medium text-ios-blue hover:text-[#0056B3] hover:bg-ios-blue/10 rounded-lg transition-colors"
+          className="flex items-center gap-1 px-3 min-h-[44px] text-[12px] font-medium text-brand hover:text-brand hover:bg-brand-soft rounded-lg transition-colors"
         >
           {viewMode === 'categories' ? 'Bütçe' : 'Kategoriler'}
           <ChevronDown className="w-3 h-3" />
@@ -170,7 +170,7 @@ export const ComparativeSpendingRings: React.FC<ComparativeSpendingRingsProps> =
               x="100"
               y="95"
               textAnchor="middle"
-              className="fill-[#1D1D1F] dark:fill-white text-[24px] font-bold"
+              className="fill-[var(--text-strong)] text-[24px] font-bold"
             >
               {formatCurrency(totalSpent)}
             </text>
@@ -178,7 +178,7 @@ export const ComparativeSpendingRings: React.FC<ComparativeSpendingRingsProps> =
               x="100"
               y="115"
               textAnchor="middle"
-              className="fill-[#6E6E73] dark:fill-[#8E8E93] text-[11px]"
+              className="fill-[var(--text-muted)] text-[11px]"
             >
               Toplam
             </text>
@@ -188,40 +188,40 @@ export const ComparativeSpendingRings: React.FC<ComparativeSpendingRingsProps> =
         {/* Details Panel */}
         <div className="flex-1 w-full">
           {selectedRingData ? (
-            <div className="p-4 bg-[#F5F5F7] dark:bg-[#2C2C2E] rounded-xl animate-fade-in">
+            <div className="p-4 bg-surface-2 rounded-xl animate-fade-in">
               <div className="flex items-center gap-2 mb-3">
                 <div
                   className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: selectedRingData.color.main }}
                 />
-                <span className="text-[15px] font-semibold text-[#1D1D1F] dark:text-white">
+                <span className="text-[15px] font-semibold text-strong">
                   {selectedRingData.name}
                 </span>
               </div>
 
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-[13px] text-[#6E6E73] dark:text-[#8E8E93]">Harcanan</span>
-                  <span className="text-[17px] font-bold text-[#1D1D1F] dark:text-white">
+                  <span className="text-[13px] text-muted">Harcanan</span>
+                  <span className="text-[17px] font-bold text-strong">
                     {formatCurrency(selectedRingData.current)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[13px] text-[#6E6E73] dark:text-[#8E8E93]">Hedef</span>
-                  <span className="text-[15px] text-[#6E6E73] dark:text-[#8E8E93]">
+                  <span className="text-[13px] text-muted">Hedef</span>
+                  <span className="text-[15px] text-muted">
                     {formatCurrency(selectedRingData.target)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center pt-2 border-t border-black/5 dark:border-white/10">
-                  <span className="text-[13px] text-[#6E6E73] dark:text-[#8E8E93]">Oran</span>
+                  <span className="text-[13px] text-muted">Oran</span>
                   <span
                     className="text-[17px] font-bold"
                     style={{ color: selectedRingData.color.main }}
                   >
                     {selectedRingData.percentage > 100 ? (
-                      <span className="text-ios-red">+{(selectedRingData.percentage - 100).toFixed(0)}%</span>
+                      <span className="text-danger">+{formatPercent(selectedRingData.percentage - 100, 0)}</span>
                     ) : selectedRingData.percentage < 100 ? (
-                      <span className="text-ios-green">{selectedRingData.percentage.toFixed(0)}%</span>
+                      <span className="text-success">{formatPercent(selectedRingData.percentage, 0)}</span>
                     ) : (
                       '100%'
                     )}
@@ -235,19 +235,19 @@ export const ComparativeSpendingRings: React.FC<ComparativeSpendingRingsProps> =
                 <button
                   key={ring.id}
                   onClick={() => setSelectedRing(ring.id)}
-                  className="w-full flex items-center justify-between p-3 min-h-[44px] rounded-xl hover:bg-[#F5F5F7] dark:hover:bg-[#2C2C2E] transition-colors"
+                  className="w-full flex items-center justify-between p-3 min-h-[44px] rounded-xl hover-surface-2 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <div
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: ring.color.main }}
                     />
-                    <span className="text-[13px] font-medium text-[#1D1D1F] dark:text-white truncate max-w-[120px]">
+                    <span className="text-[13px] font-medium text-strong truncate max-w-[120px]">
                       {ring.name}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[13px] font-semibold text-[#1D1D1F] dark:text-white">
+                    <span className="text-[13px] font-semibold text-strong">
                       {ring.percentage.toFixed(0)}%
                     </span>
                   </div>
